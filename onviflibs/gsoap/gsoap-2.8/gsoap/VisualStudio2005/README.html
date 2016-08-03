@@ -1,0 +1,35 @@
+<h1 id="flex-and-bison-for-windows">Flex and Bison for Windows</h1>
+<p>Visual Studio 2005 Solution files for soapcpp2 and wsdl2h are included.</p>
+<p>If not already installed, install the Platform SDK (R2) for <code>winsock2.h</code>.</p>
+<p>To build <code>soapcpp2.exe</code>, first install Bison and Flex (in the default dirs):</p>
+<p><a href="http://gnuwin32.sourceforge.net/packages/bison.htm">http://gnuwin32.sourceforge.net/packages/bison.htm</a> <a href="http://gnuwin32.sourceforge.net/packages/flex.htm">http://gnuwin32.sourceforge.net/packages/flex.htm</a></p>
+<p>then add the FlexBison.rules as explained here:</p>
+<p><a href="http://msdn2.microsoft.com/en-us/library/aa730877(VS.80).aspx">http://msdn2.microsoft.com/en-us/library/aa730877(VS.80).aspx</a></p>
+<p>These custom-build rules are used to build the scanner and parser for <code>soapcpp2.exe</code>.</p>
+<p>To build <code>wsdl2h.exe</code>, you first need to build <code>soapcpp2.exe</code> and install it in Program Files or copy it to the <code>wsdl</code> directory. This is needed to execute the custom-build step on <code>wsdl.h</code> to generate <code>wsdlStub.h</code>, <code>wsdlH.h</code>, and <code>wsdlC.cpp</code>.</p>
+<h1 id="build-rules-for-soapcpp2.exe-vs-2008-and-2010">Build Rules for <code>soapcpp2.exe</code> VS 2008 and 2010</h1>
+<p>To build <code>soapcpp2.exe</code> you need to install Flex and Bison. To do so, you need to create custom build rules to compile <code>.l</code> and <code>.y</code> files with Flex and Bison.</p>
+<p>Please see:</p>
+<p><a href="http://msdn.microsoft.com/en-us/library/aa730877(VS.80).aspx#vccustombr_topic3">http://msdn.microsoft.com/en-us/library/aa730877(VS.80).aspx#vccustombr_topic3</a></p>
+<p>In VS2008, there is UI available to help you create the custom build rule.</p>
+<p>Make sure you have <code>flex.exe</code>, <code>bison.exe</code>, and <code>m4.exe</code> on the system search path.</p>
+<ul>
+<li>Right click on the <code>.l</code> file and select properties</li>
+<li>Configuration -&gt; All Configurations</li>
+<li>General -&gt; Item Typ e-&gt; Custom Build Tool</li>
+<li>Apply</li>
+<li>Custom Build Tool -&gt; General -&gt; Command Line -&gt; <code>flex -olexer.c lexer.l</code></li>
+<li>Custom Build Tool -&gt; General -&gt; Outputs -&gt; <code>lexer.c</code></li>
+<li>Custom Build Tool -&gt; General -&gt; Additional Dependencies -&gt; <code>parser.y parser.c</code></li>
+<li>Apply</li>
+<li>Select the <code>.y</code> file in the solution explorer</li>
+<li>Configuration -&gt; All Configurations</li>
+<li>General -&gt; Item Type -&gt; Custom Build Tool</li>
+<li>Apply</li>
+<li>Custom Build Tool -&gt; General -&gt; Command Line -&gt; <code>bison -oparser.c parser.y</code></li>
+<li>Custom Build Tool -&gt; General -&gt; Outputs -&gt; <code>parser.c parser.h</code></li>
+</ul>
+<p>In VS2010, there may not be a UI available to create the custom build rules. To add or modify build rules in VS2010 you need to edit:</p>
+<p><code>%ProgramFiles%\MSBuild\Microsoft.Cpp\v4.0\BuildCustomizations</code></p>
+<p>and/or</p>
+<p><code>%ProgramFiles(x86)%\MSBuild\Microsoft.Cpp\v4.0\BuildCustomizations</code></p>

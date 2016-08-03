@@ -1,0 +1,10 @@
+core
+	DeviceManagmentService
+	Event FrameworkService
+	Discovery Service
+ReceiverService
+DisplayService
+DeviceIOService
+
+
+Streaming

@@ -1,0 +1,12 @@
+core
+	DeviceManagmentService
+	Event FrameworkService
+	Discovery Service
+RecordingSearchService
+ReplayControlService
+RecordingControlService
+ReceiverService
+DeviceIOService
+
+
+Streaming

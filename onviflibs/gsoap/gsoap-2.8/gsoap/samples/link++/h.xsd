@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <schema targetNamespace="http://websrv.cs.fsu.edu/~engelen/h.xsd"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:h="http://websrv.cs.fsu.edu/~engelen/h.xsd"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="authentication"><!-- h__authentication -->
+
+   <sequence>
+   </sequence>
+     <attribute name="userid" type="xsd:string" use="optional"/><!-- h__authentication::userid -->
+     <attribute name="passwd" type="xsd:string" use="optional"/><!-- h__authentication::passwd -->
+  </complexType>
+  <element name="credentials" type="h:authentication"/>
+ </schema>
+

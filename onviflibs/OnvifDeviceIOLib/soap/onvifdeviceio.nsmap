@@ -1,0 +1,21 @@
+
+#include "onvifdeviceioH.h"
+SOAP_NMAC struct Namespace onvifdeviceio_namespaces[] =
+{
+	{"SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope", "http://schemas.xmlsoap.org/soap/envelope/", NULL},
+	{"SOAP-ENC", "http://www.w3.org/2003/05/soap-encoding", "http://schemas.xmlsoap.org/soap/encoding/", NULL},
+	{"xsi", "http://www.w3.org/2001/XMLSchema-instance", "http://www.w3.org/*/XMLSchema-instance", NULL},
+	{"xsd", "http://www.w3.org/2001/XMLSchema", "http://www.w3.org/*/XMLSchema", NULL},
+	{"chan", "http://schemas.microsoft.com/ws/2005/02/duplex", NULL, NULL},
+	{"wsa5", "http://www.w3.org/2005/08/addressing", "http://schemas.xmlsoap.org/ws/2004/08/addressing", NULL},
+	{"xmime", "http://tempuri.org/xmime.xsd", NULL, NULL},
+	{"xop", "http://www.w3.org/2004/08/xop/include", NULL, NULL},
+	{"tt", "http://www.onvif.org/ver10/schema", NULL, NULL},
+	{"wsnt", "http://docs.oasis-open.org/wsn/b-2", NULL, NULL},
+	{"wsrfbf", "http://docs.oasis-open.org/wsrf/bf-2", NULL, NULL},
+	{"wstop", "http://docs.oasis-open.org/wsn/t-1", NULL, NULL},
+	{"deviceio", "http://www.onvif.org/ver10/deviceIO/wsdl", NULL, NULL},
+	{"devicews", "http://www.onvif.org/ver10/device/wsdl", NULL, NULL},
+	{"mediaws", "http://www.onvif.org/ver10/media/wsdl", NULL, NULL},
+	{NULL, NULL, NULL, NULL}
+};

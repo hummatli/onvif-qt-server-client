@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tempuri="http://tempuri.org/"
+  xmlns:mssamt="http://Microsoft.Samples.TransportSecurity">
+ <SOAP-ENV:Body>
+   <mssamt:Subtract>
+    <mssamt:n1>0.0</mssamt:n1>
+    <mssamt:n2>0.0</mssamt:n2>
+   </mssamt:Subtract>
+
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

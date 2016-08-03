@@ -1,0 +1,27 @@
+#! /bin/sh
+
+aclocal
+autoheader
+rm -f missing
+automake --add-missing
+autoconf
+automake
+./configure --enable-samples
+rm -f gsoap/wsdl/wsdlC.cpp
+rm -f gsoap/wsdl/*.o
+rm -f gsoap/src/*.o
+rm -f gsoap/samples/*/*.o
+rm -f gsoap/samples/*/soapH.h
+rm -f gsoap/samples/*/soapC.*
+rm -f gsoap/samples/databinding/addressC.cpp
+rm -f gsoap/samples/chaining/envC.c
+rm -f gsoap/samples/chaining/qServerLib.c
+rm -f gsoap/samples/chaining/cServerLib.c
+rm -f gsoap/samples/chaining++/envC.cpp
+rm -f gsoap/samples/chaining++/QuotequoteService.cpp
+rm -f gsoap/samples/chaining++/CalccalcService.cpp
+
+echo "Please run the following command now:"
+echo "make"
+
+

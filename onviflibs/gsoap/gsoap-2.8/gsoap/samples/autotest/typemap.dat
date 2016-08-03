@@ -1,0 +1,9 @@
+#	typemap.dat for W3C basic and advanced XML schema pattern databindings
+
+#	test/wsdl/typemap.dat
+
+ex = "http://www.w3.org/2002/ws/databinding/examples/6/09/"
+st = "http://www.w3.org/2002/ws/databinding/examples/6/09/strict/"
+
+#	prevents importing from an non-existing site:
+x = <http://example.com/a/namespace>

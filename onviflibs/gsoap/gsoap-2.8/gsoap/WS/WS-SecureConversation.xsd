@@ -1,0 +1,126 @@
+<!--
+
+Copyright Notice
+
+(c) 2001-2005 Actional Corporation, BEA Systems, Inc., 
+Computer Associates International, Inc., International Business Machines Corporation, 
+Layer 7 Technologies, Microsoft Corporation, Netegrity, Inc., Oblix Inc.,
+OpenNetwork Technologies Inc., Ping Identity Corporation, Reactivity Inc., 
+RSA Security Inc., and VeriSign Inc.
+All rights reserved. 
+
+Permission to copy and display the WS-Trust Specification (the "Specification", which 
+includes WSDL and schema documents), in any medium without fee or royalty 
+is hereby granted, provided that you include the following on ALL copies of the 
+Specification, that you make:
+
+1.  A link or URL to the Specification at one of the Authors' websites
+2. The copyright notice as shown in the Specification.
+
+IBM, Microsoft and Actional, BEA, Computer Associates, Layer 7, Netegrity, Oblix, 
+OpenNetwork, Ping Identity, Reactivity, and Verisign (collectively, the "Authors") each 
+agree to grant you a license, under royalty-free and otherwise reasonable, 
+non-discriminatory terms and conditions, to their respective essential patent claims 
+that they deem necessary to implement the Specification.
+
+THE SPECIFICATION IS PROVIDED "AS IS," AND THE AUTHORS MAKE 
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT 
+NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE, NON-INFRINGEMENT, OR TITLE; THAT THE CONTENTS OF 
+THE SPECIFICATION ARE SUITABLE FOR ANY PURPOSE; NOR THAT THE 
+IMPLEMENTATION OF SUCH CONTENTS WILL NOT INFRINGE ANY THIRD PARTY 
+PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+THE AUTHORS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, 
+INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF OR RELATING TO ANY 
+USE OR DISTRIBUTION OF THE SPECIFICATION.
+
+The name and trademarks of the Authors may NOT be used in any manner, 
+including advertising or publicity pertaining to the Specification or 
+its contents without specific, written prior permission. Title to 
+copyright in the Specification will at all times remain with the Authors.
+
+No other rights are granted by implication, estoppel or otherwise.
+
+-->
+<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'
+           xmlns:wsse='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
+		   xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'
+		   xmlns:wsc='http://schemas.xmlsoap.org/ws/2005/02/sc'
+		   targetNamespace='http://schemas.xmlsoap.org/ws/2005/02/sc' 
+		   elementFormDefault='qualified' >
+
+  <xs:import namespace='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd' 
+			 schemaLocation='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd' />
+  <xs:import namespace='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd' 
+			 schemaLocation='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd' />
+
+  <!-- WS-SecureConversation - Section 3 -->
+  <xs:element name='SecurityContextToken' type='wsc:SecurityContextTokenType' />
+  <xs:complexType name='SecurityContextTokenType' >
+	<xs:annotation>
+	  <xs:documentation>
+		Actual content model is non-deterministic, hence wildcard. The following shows intended content model:
+		<xs:element ref='wsc:Identifier' minOccurs='1' />
+		<xs:element ref='wsc:Instance' minOccurs='0' />
+		<xs:any namespace='##any' processContents='lax' minOccurs='0' maxOccurs='unbounded' />
+	  </xs:documentation>
+	</xs:annotation>
+	<xs:sequence>
+	  <xs:any namespace='##any' processContents='lax' minOccurs='0' maxOccurs='unbounded' />
+	</xs:sequence>
+	<xs:attribute ref='wsu:Id' use='optional' />
+	<xs:anyAttribute namespace='##other' processContents='lax' />
+  </xs:complexType>
+
+  <xs:element name='Identifier' type='xs:anyURI' />
+  <xs:element name='Instance' type='xs:string' />
+  <xs:attribute name='Instance' type='xs:string' />
+
+  <!-- WS-SecureConversation - Section 8.1  -->
+  <xs:element name='DerivedKeyToken' type='wsc:DerivedKeyTokenType' />
+  <xs:complexType name='DerivedKeyTokenType' >
+	<xs:sequence>
+	  <xs:element ref='wsse:SecurityTokenReference' minOccurs='0' />
+	  <xs:element name='Properties' type='wsc:PropertiesType' minOccurs='0' />
+	  <xs:sequence minOccurs='0' >
+		<xs:choice>
+		  <xs:element name='Generation' type='xs:unsignedLong' />
+          <xs:element name='Offset' type='xs:unsignedLong' />
+		</xs:choice>
+		<xs:element name='Length' type='xs:unsignedLong' minOccurs='0' />
+	  </xs:sequence>
+      <xs:element ref='wsc:Label' minOccurs='0' />
+      <xs:element ref='wsc:Nonce' minOccurs='0' />
+    </xs:sequence>
+    <xs:attribute ref='wsu:Id' use='optional' />
+    <xs:attribute name='Algorithm' type='xs:anyURI' use='optional' />
+  </xs:complexType>
+
+  <xs:complexType name='PropertiesType' >
+    <xs:sequence>
+      <xs:any namespace='##any' processContents='lax' minOccurs='0' maxOccurs='unbounded' />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name='Name' type='xs:anyURI' />
+  <xs:element name='Label' type='xs:string' />
+  <xs:element name='Nonce' type='xs:base64Binary' />
+  <xs:attribute name='Nonce' type='xs:base64Binary' />
+
+  <!-- WS-SecureConversation - Section 10 -->
+  <xs:simpleType name='FaultCodeType' >
+	<xs:restriction base='xs:QName' >
+	  <xs:enumeration value='wsc:BadContextToken' />
+	  <xs:enumeration value='wsc:UnsupportedContextToken' />
+	  <xs:enumeration value='wsc:UnknownDerivationSource' />
+	  <xs:enumeration value='wsc:RenewNeeded' />
+	  <xs:enumeration value='wsc:UnableToRenew' />
+	</xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name='FaultCodeOpenEnumType' >
+	<xs:union memberTypes='wsc:FaultCodeType xs:QName' />
+  </xs:simpleType>
+
+</xs:schema>

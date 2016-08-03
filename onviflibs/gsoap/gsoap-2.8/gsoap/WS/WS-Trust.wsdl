@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright Notice
+
+(c) 2001-2005 Actional Corporation, BEA Systems, Inc., 
+Computer Associates International, Inc., International Business Machines Corporation, 
+Layer 7 Technologies, Microsoft Corporation, Netegrity, Inc., Oblix Inc.,
+OpenNetwork Technologies Inc., Ping Identity Corporation, Reactivity Inc., 
+RSA Security Inc., and VeriSign Inc.
+All rights reserved. 
+
+Permission to copy and display the WS-Trust Specification (the "Specification", which 
+includes WSDL and schema documents), in any medium without fee or royalty 
+is hereby granted, provided that you include the following on ALL copies of the 
+Specification, that you make:
+
+1.  A link or URL to the Specification at one of the Authors' websites
+2. The copyright notice as shown in the Specification.
+
+IBM, Microsoft and Actional, BEA, Computer Associates, Layer 7, Netegrity, Oblix, 
+OpenNetwork, Ping Identity, Reactivity, and Verisign (collectively, the "Authors") each 
+agree to grant you a license, under royalty-free and otherwise reasonable, 
+non-discriminatory terms and conditions, to their respective essential patent claims 
+that they deem necessary to implement the Specification.
+
+THE SPECIFICATION IS PROVIDED "AS IS," AND THE AUTHORS MAKE 
+NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT 
+NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+PARTICULAR PURPOSE, NON-INFRINGEMENT, OR TITLE; THAT THE CONTENTS OF 
+THE SPECIFICATION ARE SUITABLE FOR ANY PURPOSE; NOR THAT THE 
+IMPLEMENTATION OF SUCH CONTENTS WILL NOT INFRINGE ANY THIRD PARTY 
+PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+THE AUTHORS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, 
+INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF OR RELATING TO ANY 
+USE OR DISTRIBUTION OF THE SPECIFICATION.
+
+The name and trademarks of the Authors may NOT be used in any manner, 
+including advertising or publicity pertaining to the Specification or 
+its contents without specific, written prior permission. Title to 
+copyright in the Specification will at all times remain with the Authors.
+
+No other rights are granted by implication, estoppel or otherwise.
+
+-->
+<wsdl:definitions 
+        targetNamespace="http://schemas.xmlsoap.org/ws/2005/02/trust/wsdl"
+        xmlns:tns="http://schemas.xmlsoap.org/ws/2005/02/trust/wsdl"
+        xmlns:wst="http://schemas.xmlsoap.org/ws/2005/02/trust" 
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+  <!-- this is the WS-I BP-compliant way to import a schema -->
+  <wsdl:types>
+	<xs:schema>
+	  <xs:import 
+		  namespace="http://schemas.xmlsoap.org/ws/2005/02/trust"
+		  schemaLocation="http://schemas.xmlsoap.org/ws/2005/02/trust/ws-trust.xsd"/>
+	</xs:schema>
+  </wsdl:types>
+
+  <!-- WS-Trust defines the following GEDs -->
+  <wsdl:message name="RequestSecurityTokenMsg">
+	<wsdl:part name="request" element="wst:RequestSecurityToken" />
+  </wsdl:message>
+  <wsdl:message name="RequestSecurityTokenResponseMsg">
+	<wsdl:part name="response" 
+			   element="wst:RequestSecurityTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="RequestSecurityTokenResponseCollectionMsg">
+	<wsdl:part name="responseCollection" 
+			   element="wst:RequestSecurityTokenResponseCollection"/>
+  </wsdl:message>
+  
+  <!-- This portType models the full request/response the Security Token Service: -->
+  
+  <wsdl:portType name="WSSecurityRequestor">
+	<wsdl:operation name="SecurityTokenResponse">
+	  <wsdl:input 
+		  message="tns:RequestSecurityTokenResponseMsg"/>
+	</wsdl:operation>
+	<wsdl:operation name="SecurityTokenResponse2">
+	  <wsdl:input 
+		  message="tns:RequestSecurityTokenResponseCollectionMsg"/>
+	</wsdl:operation>
+	<wsdl:operation name="Challenge">
+	  <wsdl:input message="tns:RequestSecurityTokenResponseMsg"/>
+	  <wsdl:output message="tns:RequestSecurityTokenResponseMsg"/>
+	</wsdl:operation>
+	<wsdl:operation name="Challenge2">
+	  <wsdl:input message="tns:RequestSecurityTokenResponseMsg"/>
+	  <wsdl:output 
+		  message="tns:RequestSecurityTokenResponseCollectionMsg"/>
+	</wsdl:operation>
+  </wsdl:portType>
+  
+  <!-- These portTypes model the individual message exchanges -->
+  
+  <wsdl:portType name="SecurityTokenRequestService">
+	<wsdl:operation name="RequestSecurityToken">
+	  <wsdl:input message="tns:RequestSecurityTokenMsg"/>
+	</wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:portType name="SecurityTokenService">
+	<wsdl:operation name="RequestSecurityToken">
+	  <wsdl:input message="tns:RequestSecurityTokenMsg"/>
+	  <wsdl:output message="tns:RequestSecurityTokenResponseMsg"/>
+	</wsdl:operation>
+	<wsdl:operation name="RequestSecurityToken2">
+	  <wsdl:input message="tns:RequestSecurityTokenMsg"/>
+	  <wsdl:output 
+		  message="tns:RequestSecurityTokenResponseCollectionMsg"/>
+	</wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

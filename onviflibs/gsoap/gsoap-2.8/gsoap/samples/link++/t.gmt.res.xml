@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:t="http://tempuri.org/t.xsd">
+ <SOAP-ENV:Body>
+  <t:gmtResponse>
+   <param-1>2012-10-08T16:10:03Z</param-1>
+  </t:gmtResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

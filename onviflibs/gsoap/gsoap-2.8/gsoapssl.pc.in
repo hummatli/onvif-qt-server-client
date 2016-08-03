@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: GSoap
+Description: SOAP C Web Services with SSL and ZLIB
+Version: @VERSION@
+Requires:
+Libs: -L${libdir} -lgsoapssl
+Libs.private: @SAMPLE_SSL_LIBS@ @SAMPLE_EXTRA_LIBS@
+Cflags: @SOAPCPP2_IPV6@ -DWITH_OPENSSL -DWITH_DOM -DWITH_COOKIES -DWITH_GZIP -I${includedir}

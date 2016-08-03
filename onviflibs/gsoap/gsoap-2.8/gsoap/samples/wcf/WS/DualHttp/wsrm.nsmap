@@ -1,0 +1,16 @@
+
+#include "soapH.h"
+SOAP_NMAC struct Namespace namespaces[] =
+{
+	{"SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope", "http://schemas.xmlsoap.org/soap/envelope/", NULL},
+	{"SOAP-ENC", "http://www.w3.org/2003/05/soap-encoding", "http://schemas.xmlsoap.org/soap/encoding/", NULL},
+	{"xsi", "http://www.w3.org/2001/XMLSchema-instance", "http://www.w3.org/*/XMLSchema-instance", NULL},
+	{"xsd", "http://www.w3.org/2001/XMLSchema", "http://www.w3.org/*/XMLSchema", NULL},
+	{"tempuri", "http://tempuri.org/", NULL, NULL},
+	{"mssadh", "http://Microsoft.Samples.DualHttp", NULL, NULL},
+	{"chan", "http://schemas.microsoft.com/ws/2005/02/duplex", NULL, NULL},
+	{"wsa5", "http://www.w3.org/2005/08/addressing", "http://schemas.xmlsoap.org/ws/2004/08/addressing", NULL},
+	{"netrm", "http://schemas.microsoft.com/ws/2006/05/rm", NULL, NULL},
+	{"wsrm", "http://schemas.xmlsoap.org/ws/2005/02/rm", "http://docs.oasis-open.org/ws-rx/wsrm/200702", NULL},
+	{NULL, NULL, NULL, NULL}
+};

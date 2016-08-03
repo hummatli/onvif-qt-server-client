@@ -1,0 +1,268 @@
+// !$*UTF8*$!
+{
+	1D6058900D05DD3D006BFB54 /* GeoIPService */ = {
+		activeExec = 0;
+		executables = (
+			F52811211571F24600796852 /* GeoIPService */,
+		);
+	};
+	28D7ACF60DDB3853001CB0EB /* GeoIPServiceViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {766, 912}}";
+			sepNavSelRange = "{261, 0}";
+			sepNavVisRange = "{0, 383}";
+		};
+	};
+	28D7ACF70DDB3853001CB0EB /* GeoIPServiceViewController.mm */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {624, 1781}}";
+			sepNavSelRange = "{1379, 0}";
+			sepNavVisRange = "{1285, 743}";
+		};
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = F52811211571F24600796852 /* GeoIPService */;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* GeoIPService */;
+		addToTargets = (
+			1D6058900D05DD3D006BFB54 /* GeoIPService */,
+		);
+		codeSenseManager = F528113A1571F24C00796852 /* Code sense */;
+		executables = (
+			F52811211571F24600796852 /* GeoIPService */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXBookmarksDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXBookmarksDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					200,
+					255.58349609375,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXBookmarksDataSource_LocationID,
+					PBXBookmarksDataSource_NameID,
+					PBXBookmarksDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					446,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFindDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					460,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFindDataSource_MessageID,
+					PBXFindDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.XCSCMDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					20,
+					580,
+					20,
+					48.16259765625,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_SCM_ColumnID,
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					564,
+					60,
+					20,
+					48.16259765625,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 360919711;
+			PBXWorkspaceStateSaveDate = 360919711;
+		};
+		perUserProjectItems = {
+			F525C4C11583332800143AAB /* PBXTextBookmark */ = F525C4C11583332800143AAB /* PBXTextBookmark */;
+			F532F2771583323B00452363 /* PBXTextBookmark */ = F532F2771583323B00452363 /* PBXTextBookmark */;
+			F532F2781583323B00452363 /* PBXTextBookmark */ = F532F2781583323B00452363 /* PBXTextBookmark */;
+			F532F2791583323B00452363 /* PBXTextBookmark */ = F532F2791583323B00452363 /* PBXTextBookmark */;
+		};
+		sourceControlManager = F52811391571F24C00796852 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	32CA4F630368D1EE00C91783 /* GeoIPService_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {782, 355}}";
+			sepNavSelRange = "{213, 0}";
+			sepNavVisRange = "{0, 343}";
+		};
+	};
+	F525C4C11583332800143AAB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F5B65B58158044D3004BF593 /* main.mm */;
+		name = "main.mm: 6";
+		rLen = 0;
+		rLoc = 97;
+		rType = 0;
+		vrLen = 403;
+		vrLoc = 0;
+	};
+	F52811211571F24600796852 /* GeoIPService */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = GeoIPService;
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	F52811391571F24C00796852 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	F528113A1571F24C00796852 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	F532F2771583323B00452363 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F5A1A64A1580424200A81749 /* gsoapios.mm */;
+		name = "gsoapios.mm: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 643;
+		vrLoc = 14737;
+	};
+	F532F2781583323B00452363 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 28D7ACF60DDB3853001CB0EB /* GeoIPServiceViewController.h */;
+		name = "GeoIPServiceViewController.h: 6";
+		rLen = 0;
+		rLoc = 119;
+		rType = 0;
+		vrLen = 383;
+		vrLoc = 0;
+	};
+	F532F2791583323B00452363 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F5B65B58158044D3004BF593 /* main.mm */;
+		name = "main.mm: 6";
+		rLen = 0;
+		rLoc = 97;
+		rType = 0;
+		vrLen = 403;
+		vrLoc = 0;
+	};
+	F59E2CC2157E943A0081F2D3 /* gsoapios.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {624, 2808}}";
+			sepNavSelRange = "{6018, 0}";
+			sepNavVisRange = "{5296, 1024}";
+		};
+	};
+	F5A1A64A1580424200A81749 /* gsoapios.mm */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {766, 14794}}";
+			sepNavSelRange = "{23102, 0}";
+			sepNavVisRange = "{21902, 2130}";
+		};
+	};
+	F5B65B58158044D3004BF593 /* main.mm */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {624, 353}}";
+			sepNavSelRange = "{97, 0}";
+			sepNavVisRange = "{0, 403}";
+		};
+	};
+	F5E0954C1572A7000028FEFC /* soapGeoIPServiceSoap12Proxy.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1601, 962}}";
+			sepNavSelRange = "{2491, 0}";
+			sepNavVisRange = "{1943, 1449}";
+		};
+	};
+	F5E0954E1572A7000028FEFC /* soapStub.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {936, 3744}}";
+			sepNavSelRange = "{4003, 0}";
+			sepNavVisRange = "{3833, 1239}";
+		};
+	};
+}

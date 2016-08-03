@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
+ xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:mssadh="http://Microsoft.Samples.DualHttp"
+ xmlns:tempuri="http://tempuri.org/"
+ xmlns:wsa5="http://www.w3.org/2005/08/addressing"
+ xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm">
+ <SOAP-ENV:Header>
+ </SOAP-ENV:Header>
+ <SOAP-ENV:Body>
+  <mssadh:Equation>
+   <mssadh:eqn></mssadh:eqn>
+  </mssadh:Equation>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

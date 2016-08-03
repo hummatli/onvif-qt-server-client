@@ -1,0 +1,235 @@
+================================================================================
+INSTALLATION
+================================================================================
+
+See README.txt for an overview of the gSOAP software and more details on the
+installation in case of a problem.
+
+This part explains how gSOAP is built on your platform.
+
+Using Autoconf/Automake
+-----------------------
+
+Requirements to configure and build the package with autoconf/automake:
+
+1. Automake tools (make and GNU m4) to configure and build
+2. Bison http://www.gnu.org/software/bison or the alternative Yacc
+3. Flex http://flex.sourceforge.net 
+4a. either OpenSSL (for optional HTTPS) http://www.openssl.org
+4b. or GNUTLS (for optional HTTPS) http://www.gnu.org/software/gnutls/
+4c. or disable SSL support (./configure --disable-ssl)
+5. Zlib (optional, to support compression) http://www.zlib.net
+6. Pthreads or win32 threads (optional)
+
+See Installation Instructions below.
+
+I do not have/want Automake! What should I do?
+----------------------------------------------
+
+No problem.
+
+If autoconf/automake are not available or if 'configure' and 'make' fail for
+some reason, you can still build the 'soapcpp2' and 'wsdl2h' tools with the
+provided generic makefiles.
+
+To do so, use the command line to run 'make' with generic makefiles:
+
+	$ cd gsoap/src
+	$ make -f MakefileManual
+	$ cd gsoap/wsdl
+	$ make -f MakefileManual
+
+This builds 'soapcpp' with 'gcc' and 'wsdl2h' with 'g++' and installs the
+binaries in gsoap/bin. Move them to a bin directory or include them in your
+executable path.
+
+To build 'wsdl2h' with HTTPS enabled (assuming OpenSSL is installed), use:
+
+	$ cd gsoap/wsdl
+	$ make -f MakefileManual secure
+
+To compile with a different compiler instead of GCC, for example 'clang', use:
+
+	$ cd gsoap/src
+	$ make CC=clang -f MakefileManual
+	$ cd gsoap/wsdl
+	$ make CC=clang CPP=clang++ -f MakefileManual secure
+
+Some systems may require additional libraries to build 'wsdl2h', for example
+Sun OS:
+
+	$ cd gsoap/wsdl
+	$ make CC=CC CPP=CC SOCKLIB='-lsocket -lnsl -lxnet' -f MakefileManual secure
+
+The above commands to build 'soapcpp2' assume you have Bison and Flex
+installed. To use Yacc instead, please use:
+
+	$ cd gsoap/src
+	$ make YACC='yacc -d -v -s soapcpp2_yacc' CMFLAGS='-DWITH_YACC -DWITH_FLEX' -f MakefileManual
+
+If you do not have the Bison tool, please download and install it from here:
+
+	http://www.gnu.org/software/bison/
+
+If you do not have the Flex tool, please download and install it from here:
+
+      	http://flex.sourceforge.net
+
+For your project builds, use the stdsoap2.c and stdsoap2.cpp sources rather
+than the libgsoap libs, as the libs are not built. To enable SSL, GZIP, HTTP
+cookies, IPv6 support, and/or force C locale usage, use the compiler flags:
+
+	-DWITH_OPENSSL		to enable SSL, link with OpenSSL
+	-DWITH_GNUTLS		to enable SSL, link with GNUTLS
+	-DWITH_GZIP		to enable compression, link with Zlib
+	-DWITH_COOKIES		to enable HTTP cookies
+	-DWITH_IPV6		to enable IPv6
+	-DWITH_C_LOCALE		to force C locale
+
+Note: these flags when set must be used to compile ALL your sources to ensure
+consistency.
+
+What if I cannot install Bison and Flex?
+----------------------------------------
+
+Included in gsoap/src are the flex-generated file 'lex.yy.c' and
+bison-generated files 'soapcpp2_yacc.tab.h' and 'soapcpp2_yacc.tab.c'. These
+files may suffice (no guarantee however) to build 'soapcpp2' as follows:
+
+	$ cd gsoap/src
+	$ make -f MakefileManual soapcpp2
+
+In case the files 'lex.yy.c', 'soapcpp2_yacc.tab.h', and 'soapcpp2_yacc.tab.c'
+were deleted in a prior build run, please unarchive the gSOAP package again
+to retrieve these original files.
+
+Windows Users
+-------------
+
+Win32 binaries and project code is included in this package. Win32 users can
+start right away without autoconf/automake. The 'soapcpp2.exe' binary compiler
+and 'wsdl2h.exe' WSDL parser are included in 'gsoap/bin/win32', see also the
+'gsoap/VisualStudio2005' folder for the tool project files. The 'soapcpp2.exe'
+and 'wsdl2h.exe' tools are command-line based and should be invoked from within
+the IDE to process WSDL, XSD, and gSOAP service specification header files:
+
+.wsdl .xsd --> wsdl2h.exe --> .h (special .h formatted with gSOAP annotations)
+                              .h --> soapcpp2.exe --> .h .c .cpp .xml ...
+
+Win32 build needs "ws2_32.lib". To do this in Visual Studio C++ 6.0, go to
+"Project", "settings", select the "Link" tab (the project file needs to be
+selected in the file view) and add "ws2_32.lib" to the "Object/library modules"
+entry
+
+Visual Studio 2005: you must install the Platform SDK (R2)
+
+Dependences (stdsoap2.h and stdsoap2.c/.cpp include specific comments on this):
+
+	winsock2.h
+	ws2tcpip.h
+	ws2spi.h
+	Ws2_32.lib
+
+Please note that the package includes mvc makefiles to build 'soapcpp2.exe' and
+'wsdl2h.exe':
+
+	gsoap/src/Make_mvc.mak
+	gsoap/wsdl/Make_mvc.mak
+
+Symbian
+-------
+
+Symbian instructions and example code is located in 'gsoap/Symbian'.
+
+Palm
+----
+
+Palm OS support is no longer available for this release. The latest stable
+release with Palm OS support is gSOAP 2.7.8c.
+
+Tandem NonStop
+--------------
+
+See gsoap/TandemNonStop for instructions.
+
+Installation Instructions
+-------------------------
+
+To build gSOAP on your platform using autoconf/automake, please enter the
+following commands:
+
+	$ ./configure
+	$ make
+	$ make install
+
+This will install the executables and libraries on your system (and you need
+root access to do so).
+
+To build without the default OpenSSL SSL/TLS support, use:
+
+	$ ./configure --disable-ssl
+	$ make
+	$ make install
+
+To build with GNUTLS SSL/TLS support, use:
+
+	$ ./configure --enable-gnutls
+	$ make
+	$ make install
+
+IMPORTANT: the WS-Security WSSE plugin requires OpenSSL and will not build with
+GNUTLS. This limitation is being addressed, so please check future 2.8.x
+releases.
+
+To configure and build the examples, use the --enable-samples option:
+
+	$ ./configure --enable-samples
+
+To configure and build the libraries in DEBUG mode, which produces 'SENT.log',
+'RECV.log' and 'TEST.log' files for message logs and gSOAP engine event logs,
+use:
+
+	$ ./configure --enable-debug
+
+To enable IPV6 support, use:
+
+	$ ./configure --enable-ipv6
+
+If you do not want the libraries to depend on a global namespace table (.nsmap
+file content), use:
+
+	$ ./configure --disable-namespaces
+
+However, you MUST set a namespace table at runtime with soap_set_namespaces()
+right after initialization with soap_init() or soap_new() to ensure that a
+namespace mapping table is used by the engine context.
+
+If you want to install the executables in your local folder, enter:
+
+	$ ./configure
+	$ make
+	$ make install exec_prefix=$HOME
+
+Summary
+-------
+
+To build your projects, you need the following executables:
+
+	wsdl2h		the gSOAP WSDL/schema parser and code generator
+	soapcpp2	the gSOAP stub/skeleton/serialization generator
+
+Pre-built executables of these for select platforms can be found in gsoap/bin.
+
+You also need the following libraries (built from stdsoap2.c[pp]):
+
+	libgsoap++.a		C++ runtime
+	libgsoapck++.a		C++ runtime with HTTP cookie support
+	libgsoapssl++.a		C++ runtime with cookies, zlib, and SSL
+	libgsoap.a		C runtime
+	libgsoapck.a		C runtime with HTTP cookie support
+	libgsoapssl.a		C runtime with cookies, zlib, and SSL
+
+Or you can use the stdsoap2.c and stdsoap2.cpp source directly, but you need to use the propoer -DWITH_X flags to enable support for 'X' (see above).
+
+This version of gSOAP requires SSL support with OpenSSL 0.9.6 or later.
+

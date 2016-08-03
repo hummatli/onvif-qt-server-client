@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://www.w3.org/2003/05/soap-envelope"
+  xmlns:SOAP-ENC="http://www.w3.org/2003/05/soap-encoding"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tempuri="http://tempuri.org/"
+  xmlns:mssadh="http://Microsoft.Samples.DualHttp"
+  xmlns:chan="http://schemas.microsoft.com/ws/2005/02/duplex"
+  xmlns:wsa5="http://www.w3.org/2005/08/addressing"
+  xmlns:netrm="http://schemas.microsoft.com/ws/2006/05/rm"
+  xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm">
+ <SOAP-ENV:Header>
+  <wsa5:MessageID></wsa5:MessageID>
+  <wsa5:RelatesTo RelationshipType=""></wsa5:RelatesTo>
+  <wsa5:From>
+   <wsa5:Address></wsa5:Address>
+   <wsa5:ReferenceParameters>
+    <chan:ChannelInstance>0</chan:ChannelInstance>
+    <!-- extensibility element(s) -->
+
+    <!-- extensibility element(s) -->
+
+   </wsa5:ReferenceParameters>
+   <wsa5:Metadata>
+    <!-- extensibility element(s) -->
+
+    <!-- extensibility element(s) -->
+
+   </wsa5:Metadata>
+   <!-- extensibility element(s) -->
+
+   <!-- extensibility element(s) -->
+
+  </wsa5:From>
+  <wsa5:ReplyTo>
+   <wsa5:Address></wsa5:Address>
+   <wsa5:ReferenceParameters>
+    <chan:ChannelInstance>0</chan:ChannelInstance>
+    <!-- extensibility element(s) -->
+
+    <!-- extensibility element(s) -->
+
+   </wsa5:ReferenceParameters>
+   <wsa5:Metadata>
+    <!-- extensibility element(s) -->
+
+    <!-- extensibility element(s) -->
+
+   </wsa5:Metadata>
+   <!-- extensibility element(s) -->
+
+   <!-- extensibility element(s) -->
+
+  </wsa5:ReplyTo>
+  <wsa5:FaultTo>
+   <wsa5:Address></wsa5:Address>
+   <wsa5:ReferenceParameters>
+    <chan:ChannelInstance>0</chan:ChannelInstance>
+    <!-- extensibility element(s) -->
+
+    <!-- extensibility element(s) -->
+
+   </wsa5:ReferenceParameters>
+   <wsa5:Metadata>
+    <!-- extensibility element(s) -->
+
+    <!-- extensibility element(s) -->
+
+   </wsa5:Metadata>
+   <!-- extensibility element(s) -->
+
+   <!-- extensibility element(s) -->
+
+  </wsa5:FaultTo>
+  <wsa5:To></wsa5:To>
+  <wsa5:Action></wsa5:Action>
+ </SOAP-ENV:Header>
+ <SOAP-ENV:Body>
+  <wsrm:TerminateSequence>
+   <wsrm:Identifier></wsrm:Identifier>
+  </wsrm:TerminateSequence>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

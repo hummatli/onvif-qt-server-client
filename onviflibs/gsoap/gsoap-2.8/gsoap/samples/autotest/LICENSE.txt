@@ -1,0 +1,10 @@
+
+W3C copyright and document licensing:
+
+   http://www.w3.org/Consortium/Legal/copyright-documents
+
+gSOAP software licensing:
+
+   Copyright (C) 2001-2010 Robert van Engelen, Genivia Inc. All Rights Reserved.
+   Part of this software is released under one of the following licenses:
+   1) GPL or 2) Genivia's license for commercial use.

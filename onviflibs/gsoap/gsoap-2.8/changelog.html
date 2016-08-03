@@ -1,0 +1,987 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Robert A. van Engelen">
+   <meta name="GENERATOR" content="Mozilla/4.76 [en] (X11; U; SunOS 5.8 sun4u) [Netscape]">
+</head>
+<body bgcolor="#e6e6e6">
+
+<h1>Changelog</h1>
+
+<ul>
+<li>Version 1.1</li>
+<ul>
+<li>Added typedef conventions</li>
+<li>Added enumerations</li>
+<li>Added hexBinary encoding</li>
+<li>Added base64 encoding</li>
+<li>Enable pass by reference operator (&amp;) for output parameter</li>
+<li>Enable specification of methods in classes</li>
+</ul>
+<li>Version 1.2 (9/9/2001)</li>
+<ul>
+<li>Added WSDL&nbsp;generator</li>
+</ul>
+<li>Version 1.2w (9/14/2001)</li>
+<ul>
+<li>Win32 port</li>
+<li>Fixed a socket communication problem in win32 version</li>
+<li>Added namespace name pattern matching to ease validation</li>
+</ul>
+<li>Version 1.2.1 (10/24/2001)</li>
+<ul>
+<li>Chunked HTTP 1.1 transfer support</li>
+<li>Improved buffering</li>
+<li>Fixed a problem with nested vector allocation</li>
+</ul>
+<li>Version 1.2.2 (11/2/2001)</li>
+<ul>
+<li>Support for special XML element names with dots, underscores, and center dots (see documentation section 5.3)</li>
+<li>Fixed a decoding problem with dynamic array of pointers to polymorphic objects</li>
+<li>Fixed an encoding problem with enumerations</li>
+<li>Added a "safe-mode" flag to disable serialization of multi-referenced objects:
+<pre>
+soap_disable_href = 1;
+</pre>
+You can set this global flag anywere in the code, but at least before serialization is performed.
+It will disable the use of href attributes when sending multi-reference data. Instead, the data is copied
+in the payload.
+<b>When set, this flag will hang the serializer when sending cyclic data structures.</b>
+</li>
+</ul>
+<li>Version 1.2.3 (12/5/2001)</li>
+<ul>
+<li>Added <i>bool</i> type encoding/decoding.</li>
+<li>Added dynamic multi-dimensional arrays.</li>
+<li>Added support for primitive polymorphic types.</li>
+<li>Added full support for CDATA content decoding.</li>
+<li>More convenient customization of SOAP Headers and Faults. No separate <tt>soapheader.h</tt> and <tt>soapfault.h</tt> files
+required (and therefore no <tt>.cpp</tt> files have to be created for these). Instead, the compiler generates customized SOAP
+Header and SOAP Fault marshalling routines when struct/class <tt>SOAP_ENV__Fault</tt> and/or <tt>SOAP_ENV__Header</tt> are
+specified in the header file input to the compiler.
+</li>
+<li>On-demand generation of the marshalling routines for the primitive types, which reduces the size of the executables.</li>
+<li>Fixed a WSDL incompatibility problem in the WSDL generator.</li>
+<li>Improved decoding of multi-reference elements (no <tt>xsi:type</tt> required anymore in receiving message so gSOAP does not break).</li> 
+<li>Improved support for encoding/decoding indirect data (e.g. pointers to pointers to data).</li>
+<li>
+Improved encoding of data with the same pointers to shared data but with the shared data declared with different XML schema types
+(formerly encoded as multi-reference data which could cause type incmpatibilities at the receiving side).  For example, in the
+declarations <tt>typedef char *xsd__NCName; xsd__NCName *s="SOAP"; char *t = s;</tt> the pointers <tt>s</tt> and <tt>t</tt> point
+to the same data, but will not be encoded as multi-reference data since the types are different.
+</li>
+<li>Added flag:
+<pre>
+soap_enable_null = 1;
+</pre>
+When set, all NULL pointers will be explicitly encoded. By default, NULL pointers are omitted from the SOAP payload.  For example,
+with this flag set all NULL strings and other NULL pointer data will appear as nil values in the SOAP payload.
+</li>
+<li>Added flag:
+<pre>
+soap_enable_embedding = 1;
+</pre>
+When set, multi-reference data will be encoded inline which will guarantee the exact preservation of the structure of the data
+transmitted. However, some SOAP implementations do not support embedding inline multi-reference data although this encoding style
+is likely to be included in future verions of the SOAP protocol.  The flag is useful when creating C++ applications that need to
+communicate data to eachother and the data structures need to be preserved. Setting this flag may cause a duplication of
+multi-reference data by the receiver created with the SOAP stub compiler when the data is part of a struct/class or array.  The
+data is not copied by the receiver when the struct/class or arrays use pointers to the data type.
+</li>
+<li>Added the ability to declare virtual destructors.</li>
+<li>Fixed a compilation error with fixed-size array of pointers.</li>
+<li>Fixed a problem with padding in Base64 (en/de)coding.</li>
+<li>Fixed XML entity decoding (hexadecimal).</li>
+<li>Added encoding of sparse arrays. A sparse array MUST be declared as a (fixed-size of dynamic) array of pointers. NULL pointer
+values are omitted from the output and SOAP-ENC:position attributes are used for non-NULL elements.</li>
+<li>Changed soap_put and soap_get functions to include explicit schema type parameters.  This fixed a problem with Web services that need to return typedef-ed XML schema types The new stdsoap.cpp and stdsoap.h files are incompatible with the previous version(s).
+</li>
+<li>Added the ability to ignore the names of accessors when decoding fields through the use of a leading
+<tt>_</tt> in a field name. For example:
+<pre>
+ns__mymethod(xsd__string in, xsd__string &amp;_return);
+</pre>
+When used to invoke a remote method, the actual element name of the remote return parameter used by the service is insignificant.
+</li>
+<li>Improved memory management. Added new function: <tt>soap_destroy()</tt> to remove all class instances.</li>
+<li>Improved documentation.</li>
+<li>Added <i>time_t</i> type support, but still need to add encoding/decoding routines to the runtime (next version).</li>
+<li>Added <i>wchar_t</i> type support, but still need to add encoding/decoding routines to the runtime (next version).</li>
+</ul>
+<li>Version 1.2.4 (12/17/2001)</li>
+<ul>
+<li>Added support for wide character strings (<i>wchar_t*</i>).</li>
+<li>Added support for <i>time_t</i> type.</li>
+<li>Added support for SOAP literal encoding.</li>
+<li>Fixed an obscure bug in the deserialization of data from the SOAP4R toolkit that caused the deserializer to hang.</li>
+<li>Fixed a problem with the soap_disable_href flag.</li>
+<li>Fixed a problem with the position attributes in sparse multi-dimensional arrays.</li>
+<li>Fixed a problem with the generation of .nsmap files.</li>
+<li>Fixed a problem with mixed content decoding in strings.</li>
+</ul>
+<li>Version 1.2.5 (12/27/2001)</li>
+<ul>
+<li>Fixed a memory leak in the block allocation scheme used for strings, hexBinary, and base64 types.</li>
+<li>Fixed a bug in the WSDL generator for fixed-size arrays.</li>
+<li>Fixed a problem with the use of trailing underscores in field names in struct/class declarations.</li>
+</ul>
+<li>Version 1.2.6 (1/25/2002)</li>
+<ul>
+<li>Improved portability.</li>
+<li>Improved id/href hash table efficiency and storage.</li>
+<li>Improved namespace URI matching with wildcards.</li>
+<li>Improved stand-alone deployment.</li>
+<li>Added <tt>soap_disable_response_count</tt> flag.</li>
+<li>Fixed operator declaration parsing (cast operators).</li>
+<li>Fixed a WSDL generator bug for output parameters and enumeration types.</li>
+<li>Renamed function <tt>soap_return_fault()</tt> into <tt>soap_send_fault()</tt>.</li>
+</ul>
+<li>Version 2.0 (2/2/2002)</li>
+<ul>
+<li>Rewrote the compiler and the run-time to create a thread safe implementation.</li>
+</ul>
+<li>Versions 1.2.7 and 2.0.1 (2/11/2002)</li>
+<ul>
+<li>Added compiler options (-h -c -d -p).</li>
+<li>Added optional specification of service name, location, and namespace URI in header file.</li>
+<li>Improved interoperability.</li>
+</ul>
+<li>Versions 1.2.8 and 2.0.2 (2/24/2002)</li>
+<ul>
+<li>Added function callbacks to support customized I/O and HTTP operations. This allows for plug-in HTTP code, NSAPI interface code,
+reading/writing from/to files or string buffers, etc.</li>
+<li>Added HTTP 1.0/1.1 keep-alive support.</li>
+<li>Added HTTP 1.1 chunked transfer support.</li>
+<li>Added <tt>soap_disable_request_count</tt> flag.</li>
+<li>Added <tt>soap_enable_array_overflow</tt> flag.</li>
+<li>Added type naming conventions to serialize elements without generating <tt>xsi:type</tt> attributes.</li>
+<li>Fixed a fixed-size array decoding problem (type mismatch).</li>
+<li>Fixed &lt;/sequence/&gt; bug in the WSDL generators.</li>
+</ul>
+<li>Versions 1.3 and 2.1 (3/10/2002)</li>
+<ul>
+<li>Added client-side SSL (HTTPS) support (thanks to Massimo Cafaro for his suggestions).</li>
+<li>Added a naming convention for dynamic array <tt>__ptr</tt> fields which enables the naming of the XML tags of array elements.</li>
+<li>Added WSDL Header and Fault schema generation.</li>
+<li>Improved doc/literal encoding style.</li>
+<li>Improved WSDL service/schema namespace generation.</li>
+<li>Fixed SOAP-ENV:Headers to be self contained.</li>
+<li>Fixed WSDL generation of xsd schema types declared as string.</li>
+<li>Fixed a method overriding type clash for derived classes.</li>
+<li>Fixed spurious occurrence of id="-1" with soap_enable_null flag enabled.</li>
+<li>Fixed a front-end gSOAP compiler problem with forward and cyclic struct declarations.</li>
+</ul>
+<li>Versions 1.3.1 and 2.1.1 (3/25/2002)</li>
+<ul>
+<li>Added header file source constructs to support transient data types and transient struct/class fields to control gSOAP's code generatiion window for (de)serialization routines.</li>
+<li>Added callback for handling XML elements that are ignored on the receiving side (e.g. because of schema type problems). This feature is intended to enhance the reliability of services/clients.</li>
+<li>Added server-side SSL support and included an example multi-threaded stand-alone SSL secure SOAP server example.</li>
+<li>Added proxy server support.</li>
+<li>Improved message logging in gSOAP 2.1.1 (thanks to Jessie Ragsdale for his suggestions).</li>
+<li>Fixed WSDL generation for dynamic arrays.</li>
+<li>Fixed deserialization of empty multi-ref derived class instances.</li>
+</ul>
+<li>Versions 1.3.2 and 2.1.2 (4/15/2002)</li>
+<ul>
+<li>Added socket timeout management.</li>
+<li>Added optional client and server cookie support.</li>
+<li>Added support for maxOccurs="unbounded" for arbitrary elements in complexTypes (not just limited to SOAP arrays).</li>
+<li>Improved generation of schema &lt;extension&gt; definitions to allow XML validation in the presence of class overriding.</li>
+<li>Fixed ULONG64 type handling.</li>
+<li>Fixed light validation problem (now rejects invalid XML schema URIs).</li>
+<li>Fixed a deserialization type mismatch with typedef-ed pointer primitives.</li>
+<li>Fixed WSDL and schema interoperability problems.</li>
+</ul>
+<li>Versions 1.3.3 and 2.1.3 (4/27/2002)</li>
+<ul>
+<li>Added 'mustUnderstand' declaration qualifier for SOAP Header processing.</li>
+<li>Added soap.actor attribute for SOAP Header processing.</li>
+<li>Added method-header-part directive to identify methods with header message associations (WSDL requirement).</li>
+<li>Added bitmask (de)serialization.</li>
+<li>Added FastCGI support.</li>
+<li>Improved DLL build support (gSOAP 2.1.3 only).</li>
+<li>Improved WinCE support (gSOAP 2.1.3 only, thanks to Sean Ryan for his suggestions).</li>
+<li>Improved Mac OS X support.</li>
+<li>WSDL generator improvements and fixes.</li>
+<li>Workaround a bug in .NET SOAP Headers (non-unique id name values in .NET).</li>
+<li>Fixed disable_href=1 bug.</li>
+<li>Fixed `XML in string parsing' code generation problem.</li>
+</ul>
+<li>Versions 1.3.4 and 2.1.4 (6/9/2002)</li>
+<ul>
+<li>Added non-blocking soap_accept() with timeout management.</li>
+<li>Added support for SOAP Header and Fault declared as classes.</li>
+<li>Added syntax for 'extern' declarations for transient types and fields.</li>
+<li>Added support for SOAP Headers in SOAP Fault messages.</li>
+<li>Added one-way SOAP messages (2.1.4 only).</li>
+<li>Added support for user-defined (de)serializers (2.1.4 only).</li>
+<li>Improved object memory management.</li>
+<li>Improved support for AIX and HP platforms.</li>
+<li>Fixed proxy server connect bug.</li>
+<li>Fixed an OpenSSL bug.</li>
+<li>Fixed soap_instantiate_ClassX() derived class allocation problem.</li>
+<li>Fixed generation of spurious .xsd files when lots of trailing underscores are used by identifiers in the header file.</li>
+<li>Fixed syntax error that occured with header files containing cyclic class declarations.</li>
+<li>Fixed 'class in struct' and 'vector of classes' VMT initialization bugs.</li>
+</ul>
+<li>Version 2.1.5 (6/22/2002)</li>
+<ul>
+<li>Added non-blocking remote method calls (not supported in win32 version).</li>
+<li>Added specification of default values for struct/class fields.</li>
+<li>Added specification of minOccurs and maxOccurs for struct/class fields.</li>
+<li>Added resolution operator '::' parsing.</li>
+<li>Added abstract method declaration support.</li>
+<li>Fixed WSDL generation of SOAP doc/lit.</li>
+<li>Fixed WITH_FASTCGI option.</li>
+</ul>
+<li>Version 2.1.6 (7/10/2002)</li>
+<ul>
+<li>Added DIME attachment support.</li>
+<li>Added win32 non-blocking sockets.</li>
+<li>Changed "%lld"/"%llu" format strings into "%I64d"/"%I64u" format string for win32.</li>
+<li>Improved I/O.</li>
+<li>Fixed multi-dimensional dynamic array (de)serialization.</li>
+<li>Fixed WSDL enum and header namespace generation.</li>
+</ul>
+<li>Version 2.1.7 (8/6/2002)</li>
+<ul>
+<li>Added generation of example SOAP/XML request and response messages by the compiler.</li>
+<li>Added RSA to SSL stack.</li>
+<li>Added two callbacks to the HTTP stack for efficient handling of HTTP headers in Apache-mod and IIS.</li>
+<li>Added compiler option -m (malloc() memory control) and updated doc on memory allocation policies.</li>
+<li>Added compiler option -i to support #include and #define directives.</li>
+<li>Improved HTTP cookie support to handle new and old cookie protocols.</li>
+<li>Improved external class (de)serialization support (std::string example is included).</li>
+<li>Fixed a SSL+proxy connect problem.</li>
+<li>Fixed uninitialized '//gsoap..executable:' string which caused sporadic exits.</li>
+<li>Fixed XML literal string encoding problem introduced with DIME.</li>
+<li>Fixed and removed WSDL duplicate response elements.</li>
+<li>Fixed LONG64 and ULONG64 types for WinCE.</li>
+</ul>
+<li>Version 2.1.8 (8/28/2002)</li>
+<ul>
+<li>Added client-side proxy class source code generation.</li>
+<li>Added soap.enable_strict flag to enable very strict validation of messages (unknown namespace URIs and XML elements are not allowed).</li>
+<li>Added soap.socket_flags to control socket send() and recv() flags, e.g. to disable broken pipe signals (soap.socket_flags=MSG_NOSIGNAL).</li>
+<li>Added '//gsoap ns service method-action' header file directive.</li>
+<li>Added server-side soap_receiver_fault() and soap_sender_fault() functions to return SOAP 1.1 and SOAP 1.2 faults.</li>
+<li>Added seeding of the PRNG for SSL.</li>
+<li>Added soapcpp2 compiler option '-2' to automate SOAP 1.2 support (SOAP 1.2 features are Beta-release).</li>
+<li>Changed keep-alive support (see docs).</li>
+<li>Improved WSDL output.</li>
+<li>Workaround Bison 1.6 for win32 bug in gSOAP win32 version.</li>
+<li>Fixed a wild-card matching bug in soap_tag_cmp()</li>
+<li>Fixed a string deserialization problem.</li>
+<li>Fixed a deserialization bug that can occur in a client-server combination with gSOAP and Apache Axis.</li>
+</ul>
+<li>Version 2.1.9 (9/08/2002)</li>
+<ul>
+<li>Added HTTP proxy authentication.</li>
+<li>Added plug-in registry (Beta).</li>
+<li>Changed compiler exit status for compilation errors.</li>
+<li>Fixed stdin/stdout binary mode for DIME transfer with gSOAP for win32.</li>
+<li>Fixed win32 soapcpp2.exe bug in .res.xml file generation.</li>
+</ul>
+<li>Version 2.1.10 (10/14/2002)</li>
+<ul>
+<li>Added '//gsoap ns service method-documentation:' directive.</li>
+<li>Added provision for additional documentation text with '//gsoap ns service name:' directive.</li>
+<li>Added #import directive to (recursively) import gSOAP header files.</li>
+<li>Added plugin features and included a plugin example in 'extras' directory.</li>
+<li>Added automake/autoconf to generic gSOAP package (thanks to Christian Aberger).</li>
+<li>Added -DWITH_LOCALTIME compilation option to control time_t (de)serialization.</li>
+<li>Changed time_t (de)serialization (now uses timegm() and gmtime() to handle UTC). Found that mktime() library call is buggy on some systems.</li>
+<li>Improved and reorganized package directory structure.</li>
+<li>Fixed DDL linkage problem with instantiate/delete routines dealing with class instance memory management.</li>
+<li>Fixed compilation problem with Sun Workshop CC compiler and other compilers that adopt a specfic class VMT structure that could break object (de)serializers.</li>
+<li>Fixed bug in WSDL generator with multiple service namespaces.</li>
+</ul>
+<li>Version 2.1.11 (11/10/2002)</li>
+<ul>
+<li>Added a multi-functional SOAP router application (message forwarding and
+message relay server).</li>
+<li>Added keep-alive support for asynchronous one-way messages.</li>
+<li>Improved parsing and handling of function prototypes and class methods.</li>
+<li>Improved modular design to enable the compilation and linkage of multiple client and service modules.</li>
+<li>Improved user-defined SOAP Fault detail handling.</li>
+<li>Fixed SSL_accept bug.</li>
+<li>Fixed serialization of pointers to dynamic arrays with multi-references.</li>
+</ul>
+<li>Version 2.2 (12/12/2002)</li>
+<ul>
+<li>Added XML attribute (de)serialization support.</li>
+<li>Added XSD QName parsing and conversion support (typedef char *xsd__QName).</li>
+<li>Added compression support (-DWITH_ZLIB requires Zlib).</li>
+<li>Changed and improved transport and encoding settings by splitting up sending and
+receiving side flags into separate sets. Depricated soap.enable_X and soap.disable_X flags.</li>
+<li>Improved keep-alive support (automatic client and server sides).</li>
+<li>Fixed a bug in mustUnderstand handling.</li>
+<li>Fixed a sporadic crash of the gSOAP compiler under win32.</li>
+<li>Fixed user-defined SOAP Fault output in WSDL generator.</li>
+</ul>
+<li>Version 2.2.1 (12/18/2002)</li>
+<ul>
+<li>Added callbacks to enable custom streaming of DIME attachments.</li>
+<li>Fixed broken serialization of pointers to dynamic arrays with NULL
+__ptr</li>
+<li>Fixed some WSDL issues.</li>
+</ul>
+<li>Version 2.2.2 (1/25/2003)</li>
+<ul>
+<li>Added gzip support (-DWITH_GZIP requires Zlib).</li>
+<li>Added faccept() callback.</li>
+<li>Improved HTTP chunking.</li>
+<li>Fixed OpenSSL and accept_timeout (OpenSSL requires blocking sockets).</li>
+<li>Fixed HTTP header buffering.</li>
+<li>Fixed UTF8 decoding of a subset of characters (2-octet UTF).</li>
+<li>Fixed 'operator==' parsing.</li>
+<li>Fixed a couple of WSDL issues.</li>
+</ul>
+<li>Version 2.2.3 (3/2/2003)</li>
+<ul>
+<li>Added server-side HTTP basic authentication.</li>
+<li>Improved speed.</li>
+<li>Improved Tru64 portability.</li>
+<li>Changed fpost() function callback signature: added 'int port' argument and
+added port number to the Host: HTTP header.</li>
+<li>Fixed memory leak in SSL connect when using OpenSSL DH.</li>
+<li>Fixed custom (de)serializer definitions parsing.</li>
+<li>Fixed a gzip/deflate bug with large transfers.</li>
+<li>Fixed use of ftime() for time_t (de)serialization with timezones.</li>
+<li>Fixed a problem with concurrent access to global namespace table by multiple threads.</li>
+<li>Fixed crash with //gsoap name directive.</li>
+<li>Fixed deserialization bug with multi-ref object encoding by Apache Axis.</li>
+</ul>
+<li>Version 2.3.1-8 (9/24/2003)</li>
+<ul>
+<li>Updated SOAP 1.2 support (implements the SOAP 1.2 recommendation).</li>
+<li>Added STL container support and built-in std::string encoding.</li>
+<li>Added stand-alone Web server example to serve static and dynamic pages
+with a new HTTP GET plugin.</li>
+<li>Added void* (de)serialization, e.g. useful to support polymorphism with C
+applications and as an alternative to union types.</li>
+<li>Added XML DOM parser to support SOAP document encoding and for mixing of application data (de)serialization within an XML DOM.</li>
+<li>Added WITH_LEAN and WITH_LEANER compilation flags to improve support for
+small-memory devices such as WinCE and Palm.</li>
+<li>Added SOAP_XML_CANONICAL flag for canonical XML output (XML-C14N support
+and SOAP 1.2 normalization support).</li>
+<li>Added '//gsoap ns method-encoding:' directive.</li>
+<li>Added '//gsoap ns schema import:' directive.</li>
+<li>Added optional class getter and setter methods for object (de)serialization.</li>
+<li>Added 'volatile' qualifier to indicate that certain type declarations
+should be treated 'as-is' when types are declared externally (e.g. part of a
+library).</li>
+<li>Added a new string notation for declarations to specify simpleType restriction patterns.</li>
+<li>Added soapcpp2 -I option to indicate #import path.</li>
+<li>Added support for (de)serialization of application data to C++ iostreams.</li>
+<li>Added fsslauth() callback.</li>
+<li>Added HTTP code error values.</li>
+<li>Added SOAP_MALLOC and SOAP_FREE macros to replace malloc() and free().</li>
+<li>Added soap_strdup(soap, string) to copy strings in gSOAP's memory space.</li>
+<li>Added chunked streaming DIME output (thanks to J. Li for his
+suggestions).</li>
+<li>Added SOAP_SOCKET for win32 support (thanks to B. Gille for his suggestions).</li>
+<li>Added SO_LINGER support (soap.connect_flags).</li>
+<li>Added support for iso-8859-1 encoded XML parsing (default is utf8).</li>
+<li>Added #module directive to build shared libraries.</li>
+<li>Added C++ namespaces support to enable the compilation and linkage of
+multiple client and service codes.</li>
+<li>Added WITH_CASEINSENSITIVETAGS compilation flag to enable case insensitive
+XML parsing.</li>
+<li>Improved WSDL types schema output.</li>
+<li>Improved custom (de)serialization (note: extras/stringtest example
+has been changed).</li>
+<li>Improved SOAP literal encoding.</li>
+<li>Improved speed.</li>
+<li>Improved HTTP1.0/1.1 support.</li>
+<li>Removed soap.defaultNamespace in favor of automatic SOAP literal output based on soap.encodingStyle value.</li>
+<li>Fixed GMT to DST localtime conversion, but still issues with Sun Solaris.</li>
+<li>Fixed dynamic array __offset handling.</li>
+<li>Fixed class definition order.</li>
+<li>Fixed sporadic memory leak in HTTP cookie reader.</li>
+<li>Fixed multi-threaded server-side OpenSSL initialization.</li>
+<li>Fixed enumeration-based XML attribute deserialiation.</li>
+<li>Fixed SOAP-ENC:position attribute placement when arrays of pointers are
+mixed with nillable data.</li>
+<li>Fixed crash when parsing incorrect SOAP/XML attribute content.</li>
+</ul>
+<li>Version 2.4 (12/20/2003)</li>
+<ul>
+<li>New WSDL parser and importer with improved support for SOAP document style and literal encoding.</li>
+<li>Added optional full schema validation (partial by default). Use SOAP_XML_STRICT flag.</li>
+<li>Added SSL session caching.</li>
+<li>Added soap_set_namespaces() to switch namespace tables.</li>
+<li>Fixed plugin memory leak. REQUIRED CHANGE to plugin allocation and copying.</li>
+<li>Fixed server-side blocking SSL accept.</li>
+</ul>
+<li>Version 2.4.1 (01/07/2004)</li>
+<ul>
+<li>Changed _USCORE_ and _DOT_ naming conventions into _USCORE and _DOT to improve name
+mapping.</li>
+<li>Updated DOM parser (integrated into core gSOAP library).</li>
+<li>Improved WSDL parser and included several new features.</li>
+<li>Fixed WSDL schema import and WSDL literal output.</li>
+</ul>
+<li>Version 2.5 (01/28/2004)</li>
+<ul>
+<li>Changed default encoding to SOAP RPC literal, as mandated by WS-I Basic
+Profile 1.0a and best practices.</li>
+<li>Added soapcpp2 compiler option -e for backward compatibility to gSOAP
+2.4.1 and earlier that use SOAP RPC
+encoding defaults (helpful when migrating gSOAP projects to 2.5).</li>
+<li>Added automatic compiler-side WS-I Basic Profile 1.0a compliance warnings
+(warns before deployment).</li>
+<li>Added fget() callback for HTTP GET responses.</li>
+<li>Added IPv6 support contributed by Wind River Systems.</li>
+<li>Added VxWorks support contributed by Wind River Systems.</li>
+<li>Improved SOAP Fault handling.</li>
+<li>Improved interop with Axis RPC encoded response messages.</li>
+<li>Fixed std::string xsi:type attribute value.</li>
+<li>Fixed gSOAP 2.4 problems with serialization of enumeration values outside enumeration range.</li>
+<li>Fixed gSOAP 2.4 Pocket PC build problem.</li>
+<li>Fixed wsdl2h SOAP Fault and Header output.</li>
+</ul>
+<li>Version 2.5.1 (02/12/2004)</li>
+<ul>
+<li>Improved WSDL output and WS-I BP1.0a compliance.</li>
+<li>Improved WSDL parser stability.</li>
+<li>Fixed problem parsing empty xsd:base64Binary elements.</li>
+<li>Fixed VxWorks and TRU64 portability issues.</li>
+<li>Fixed HTTP 400 error problem.</li>
+<li>Fixed soapcpp2 2.5 stability problem with one-way messages.</li>
+</ul>
+<li>Version 2.5.2 (02/23/2004)</li>
+<ul>
+<li>Fixed WSDL generation warnings.</li>
+<li>Fixed LONG64 problem for PalmOS.</li>
+<li>Fixed module build link problem and 'components' example.</li>
+</ul>
+<li>Version 2.6.0 (03/28/2004)</li>
+<ul>
+<li>Changed default style to doc/lit.</li>
+<li>Improved doc/lit WSDL handling.</li>
+<li>Improved soapcpp2 sample SOAP/XML message output.</li>
+<li>Added proxy support for wsdl2h.</li>
+<li>Fixed CONNECT method for proxy+SSL+gzip.</li>
+</ul>
+<li>Version 2.6.1 (06/07/2004)</li>
+<ul>
+<li>Added optional multibyte character support.</li>
+<li>Improved WSDL output.</li>
+<li>Fixed STL container multi-ref deserialization problem with missing data.</li>
+<li>Fixed doc/lit server code generation from doc/lit WSDL definitions.</li>
+</ul>
+<li>Version 2.6.2 (06/12/2004)</li>
+<ul>
+<li>Added Matlab(tm) code output (documentation is not availabel yet).</li>
+<li>Improved wsdl2h output for schema facets.</li>
+<li>Updated dom.cpp.</li>
+<li>Changed wsdl2h std::string* --&gt; std::string generation (to avoid double
+pointers std::string**). To obtain old behavior, add entry "xsd:string =
+| std::string* | std::string*" to typemap.dat.</li>
+<li>Fixed wsdl2h handling of &lt;xs:include&gt;.</li>
+<li>Fixed wsdl2h handling of empty namespaces and absent targetNamespace
+schema attributes.</li>
+<li>Fixed MB char handling.</li>
+</ul>
+<li>Version 2.7.0a/b/c/d/e/f (09/10/2004, 2/1/2005)</li>
+<ul>
+<li>Added multipart/related support for SOAP with MIME attachments (SwA).</li>
+<li>Added API functions for DIME open and closed layout support.</li>
+<li>Added //gsoap schema elementForm/attributeForm directive.</li>
+<li>Added fclosesocket, fshutdownsocket, fpoll, fserveloop callbacks.</li>
+<li>Added soap.authrealm string attribute to set basic authentication realm.</li>
+<li>Added soap.prolog string attribute to output optional XML prolog with processing instructions and directives.</li>
+<li>Added soapcpp2 option -t.</li>
+<li>Added wsdl2h options -e and -i.</li>
+<li>Added Palm OS and Symbian instructions and examples.</li>
+<li>Added xml-rpc support and examples.</li>
+<li>New mod_gsoap directory with modules for Apache 1.x/2.x, IIS, and WinInet</li>
+<li>Improved XML validation with SOAP_XML_STRICT flag.</li>
+<li>Improved memory footprint (reduced code size and reduced serialization overhead).</li>
+<li>Improved runtime id-ref serialization and deserialization.</li>
+<li>Improved wsdl2h translation.</li>
+<li>Updated dom.cpp.</li>
+<li>Updated webserver.c.</li>
+<li>Fixed issues with namespace qualification in doc/lit messages.</li>
+<li>Fixed SOAP_HREF error.</li>
+<li>Fixed proxy+SSL+zlib+chunking.</li>
+<li>Fixed SSL select() polling in frecv().</li>
+<li>Fixed wsdl2h multidimensional SOAP arrays generate problem.</li>
+</ul>
+<li>Version 2.7.1 (03/31/2005)</li>
+<ul>
+<li>Added new style of C++ proxy/object generation (objects derived from
+soap struct), enabled with soapcpp2 option -i.</li>
+<li>Added new features to wsdl2h generation to enable user-defined class/struct extensions such as member data and functions which are declared in typemap.dat.</li>
+<li>Added MIME multipart/form-data parsing to support HTTP POST HTML form handling (example included in samples/webserver).</li>
+<li>Added built-in memory leak detection enabled with -DDEBUG.</li>
+<li>Added UDDI v2 API and examples.</li>
+<li>Added 'WS' directory with WS-* protocols, such as WS-Addressing. This part will mature as more WS-* protocols will be added over time.</li>
+<li>Added fseterror() callback.</li>
+<li>Improved wsdl2h code output.</li>
+<li>Enhanced Web server sample code, and httpget and logging plugins.</li>
+<li>Fixed base64/hexBinary XML attribute serialization.</li>
+<li>Fixed a missing min/maxOccurs check for validation.</li>
+</ul>
+<li>Version 2.7.2 (05/11/2005)</li>
+<ul>
+<li>Added SOAP-over-UDP IPv4/IPv6 support with examples.</li>
+<li>Added UDDI v2 API publish example.</li>
+<li>Improved wsdl2h parser accepting multiple WSDL/XSD files from the command
+line.</li>
+<li>Fixed wsdl2h schema import from included schema bug.</li>
+<li>Fixed SOAP 1.2 Fault Subcode handling.</li>
+</ul>
+<li>Version 2.7.3 (06/27/2005)</li>
+<ul>
+<li>Added MTOM attachment support.</li>
+<li>Added 'plugin' directory with example plug-ins.</li>
+<li>Added 'import' directory for commonly #import-ed files such as stlvector.h.</li>
+<li>Added HTTP digest authentication plug-in 'plugins/httpda.h'.</li>
+<li>Added new import feature to wsdl2h using ns=&lt;uri&gt; convention for
+typemap.dat files, which enables wsdl2h to parse a WSDL that imports known
+WSDLs/schemas such as XOP, XML MIME, and WS-Addressing without actually
+reading the imported WSDL/schemas.</li>
+<li>Added soapcpp2 options -C and -S to generate client- or server-only
+codes.</li>
+<li>Added multi-path support for soappcpp2 option -I.</li>
+<li>Added C and C++ examples to combine multiple clients and services into one
+executable, see the samples/components directory in the package.</li>
+<li>Improved soapcpp2 option -e to generate SOAP RPC encoding style client/server codes by
+default (instead of document/literal by default).</li>
+<li>Fixed wsdl2h circular import of schemas.</li>
+<li>Fixed attributeGroup handling in wsdl2h.</li>
+<li>Fixed soapcpp2 handling of 'invisible' tags, e.g. __any, that should only be
+populated after all else failed to match the delivered XML content.</li>
+<li>Fixed validation of numeric enum constants with SOAP_XML_STRICT validation.</li>
+<li>Fixed engine's spurious log file generation issue.</li>
+</ul>
+<li>Version 2.7.4 (07/24/2005)</li>
+<ul>
+<li>Added union serialization.</li>
+<li>Added '//gsoap ... type-documentation:' directive.</li>
+<li>Added '//gsoap ... method-mime-type:' directive.</li>
+<li>Added wsdl2h option -g for generating global element/attribute declarations for building modular .h files.</li>
+<li>Added wsdl2 option -y for generating typedef synonyms for structs and enums, with improved handling of typedefs by soapcpp2.</li>
+<li>Added wsdl2 option -u to disable union generation for xs:choice.</li>
+<li>Improved wsdl2h documentation generation.</li>
+<li>Improved wsdl2h and soapcpp2 MIME bindings.</li>
+<li>Improved dynamic memory allocation in engine with look-aside buffering.</li>
+<li>Fixed wsdl2h xs:complexContent/extension/attributeGroup translation.</li>
+<li>Fixed wsdl2h xs:choice with min/maxOccurs != 1 translation.</li>
+<li>Fixed wsdl2h soap:body parts attribute.</li>
+</ul>
+<li>Version 2.7.5 (08/01/2005)</li>
+<ul>
+<li>Added xs:redefine support to wsdl2h.</li>
+<li>Added HTML POST application/x-www-form-urlencoded plugin httpform.c
+(demo samples/webserver).</li>
+<li>Improved wsdl2h output.</li>
+<li>Fixed wsdl2h handling of duplicate values in single enum list.</li>
+</ul>
+<li>Version 2.7.6 revision a/b/c/d/e (08/19/2005-02/18/06)</li>
+<ul>
+<li>Added WS-Security authentication, tokens, and signatures with new 'wsse'
+plugin, see documentation in 'doc' directory and 'samples/wsse'.</li>
+<li>Added 'doc' directory for documentation and moved soapdoc2.html and soapdoc2.pdf.</li>
+<li>Added SOAP_XML_INDENT flag.</li>
+<li>Added soap_sender_fault_subcode() and soap_receiver_fault_subcode() for SOAP 1.2 subcodes.</li>
+<li>Added WITH_DOM compile flag to enable flushing serialized and deserialized
+data to DOM (as well as a stream).</li>
+<li>Added soapcpp2 option -L.</li>
+<li>Added soapcpp2 option -a.</li>
+<li>Added wsdl2h option -a (for backward compatibility).</li>
+<li>Added wsdl2h option -d.</li>
+<li>Added WITH_TCPFIN comile flag to enable optional shutdown with how=1 (TCPFIN) after final sends to force EOF on other side (used to be the default behavior).</li>
+<li>Added schema substitutionGroup support.</li>
+<li>Added soap_ssl_init().</li>
+<li>Improved DOM implementation and documentation.</li>
+<li>Improved AS400 portability.</li>
+<li>Improved schema choice support.</li>
+<li>Fixed wsdl2h multiple schema include issue.</li>
+<li>Fixed soaps2dateTime and soap_timegm functions when timegm is not available.</li>
+<li>Fixed exc-c14n formatting.</li>
+<li>Fixed SOAP 1.2 fault handling.</li>
+<li>Fixed missing soap_flag___item2 issue.</li>
+<li>Fixed partial MIME boundary parsing issue.</li>
+<li>Fixed base64 parsing with WITH_FAST.</li>
+<li>Fixed MIME encoding of \r\r sequence.</li>
+<li>Fixed QName normalization issue.</li>
+<li>Fixed relative path schema import.</li>
+<li>Fixed MTOM cid matching with URL encoded IDs.</li>
+<li>Fixed wide-character (wchar_t*) XML attribute handling.</li>
+<li>Fixed std::vector element id-ref ordering in deserializer.</li>
+</ul>
+<li>Version 2.7.7 (04/07/2006)</li>
+<ul>
+<li>Added streaming MTOM support (see also example in samples/mtom-stream).</li>
+<li>Added long double serialization support with custom serializer (custom/long_double.h).</li>
+<li>Added automatic detection of application's soap_malloc() data overruns in
+DEBUG mode.</li>
+<li>Improved time_t and struct tm (custom/struct_tm.h) serialization.</li>
+<li>Fixed issue with a wrongly generated namespace map entry.</li>
+<li>Fixed PalmOS socket connection issues.</li>
+<li>Fixed XML attributes with bitmask enumeration (enum*) values.</li>
+</ul>
+<li>Version 2.7.8 revisions a/b/c (06/05/2006-06/24/2006))</li>
+<ul>
+<li>Added X509 extension checks.</li>
+<li>Added advanced MTOM streaming features.</li>
+<li>Added WS-Addressing plugin and demo.</li>
+<li>Moved soapcpp2 and wsdl2h to bin directory.</li>
+<li>Improved SOAP1.2 MTOM interop.</li>
+<li>Changed soap_send_empty_response function signature (additional status
+argument) for HTTP optional response binding.</li>
+<li>Changed fmimewriteopen() callback signature.</li>
+<li>Fixed wsdl2h top-level element and complexType name clash issue.</li>
+<li>Fixed HTTP chunking with empty response message body.</li>
+<li>Fixed WSSE digest authentication.</li>
+<li>Fixed WSDL response element output.</li>
+<li>Fixed SOAP 1.2 &lt;RPC:result&gt; handling with SOAP_XML_STRICT flag.</li>
+<li>Fixed WSSE signed response messages.</li>
+<li>Fixed Win32 max open connection exceeded checking.</li>
+<li>Fixed xsi:type matching for "__name" fields, which required a signature
+change of soap_element_begin_in() with an additional 'type' parameter (affecting custom deserializers, see custom
+dir).</li>
+</ul>
+<li>Version 2.7.9 revisions a/b/c/d/e/f/g/h/i/j/k/l (10/24/2006-09/26/2007)</li>
+<ul>
+<li>Added wsdl2h option -j to omit the generation of SOAP Header and Faults for customization of these.</li>
+<li>Added wsdl2h option -q to generate C++ namespace qualified header files.</li>
+<li>Added SOAP_SSLv3, SOAP_TLSv1, SOAP_SSL_SKIP_HOST_CHECK flags.</li>
+<li>Added file input and output specifications (with &lt; and &gt;) to wsdl2h's typemap.dat to specify input and output for wsdl2h.</li>
+<li>Added WS-Addressing 2005/03 support.</li>
+<li>Added function soap_free() = soap_done() + free() and renamed previous soap_free() to soap_temp_free().</li>
+<li>Added wsdl2h option -_ to translate _USCORE.</li>
+<li>Added xsd:anyAttribute (using DOM parser) with wsdl2h option -d.</li>
+<li>Added multi-WSDL types section schema component merging.</li>
+<li>Added TCP keep-alive settings.</li>
+<li>Added QName list normalization.</li>
+<li>Changed soapcpp2 default rule for generating attribute form qualified to unqualified.</li>
+<li>Improved wsdl2h SOAP Fault coding.</li>
+<li>Improved performance and stability.</li>
+<li>Improved portability.</li>
+<li>Improved wsdl2h empty namespace handling ("" namespace).</li>
+<li>Improved wsdl2h and schema conversion to C and C++.</li>
+<li>Improved SSL timeouts and error handling.</li>
+<li>Improved soapcpp2 option -i (generate proxy and service classes).</li>
+<li>Improved class instance initialization.</li>
+<li>Improved use of IPv6.</li>
+<li>Improved proxy and server code output for soapcpp2 option -i.</li>
+<li>Improved soapcpp2 code output with additional exception checks.</li>
+<li>Fixed MIME/MTOM start id handling (SOAP message no longer required to be first attachment).</li>
+<li>Fixed WS-Security wsse plugin canonicalization format issue.</li>
+<li>Fixed ZIP content remainder parsing (CRC check).</li>
+<li>Fixed WSA API handling of messages with MIME/DIME attachments.</li>
+<li>Fixed wsdl2h &lt;include&gt; relative path includes.</li>
+<li>Fixed _XML literal string parsing of root attributes.</li>
+</ul>
+<li>Version 2.7.10 (01/27/2008)</li>
+<ul>
+<li>Combined pre-built win32, Linux i386, and Mac universal binaries into a single software distribution package to streamline the distribution.</li>
+<li>Added new Web service examples and removed XMethods dependence.</li>
+<li>Added soapcpp2 option -q&lt;name&gt; for automatic C++ namespace qualification.</li>
+<li>Added HTTP PUT, DELETE, HEAD callback support.</li>
+<li>Added ability to derive classes from soap struct (in gSOAP header files).</li>
+<li>Updated certificates and fixed cacerts.c.</li>
+<li>Improved soapcpp2 option -i proxy/server object generation.</li>
+<li>Improved socket timeout handling.</li>
+<li>Improved HTTP chunking handling and efficiency.</li>
+<li>Improved web server implementation.</li>
+<li>Improved soapcpp2 and wsdl2h warning and error reporting.</li>
+<li>Fixed dom parser handling of default xml namespace bindings.</li>
+<li>Fixed wsdl2h default ("") namespace handling.</li>
+</ul>
+<li>Version 2.7.11 (07/26/2008)</li>
+<ul>
+<li>Added new wsseapi signature verification API functions.</li>
+<li>Added mutability property of SOAP_ENV__Header and SOAP_ENV__Fault struct
+to allow consistent redefinitions and on-the-fly member additions.</li>
+<li>Added wsdl2h -r option parameter for web proxy access.</li>
+<li>Added MINGW portability.</li>
+<li>Added configure option --disable-openssl to build wsdl2h and libraries
+without OpenSSL.</li>
+<li>Added WITH_C_LOCALE compilation flag to enable the use of c_locale and local-specific numeric conversion routines.</li>
+<li>Added WS-Addressing metadata (wsam) support.</li>
+<li>Fixed xml:lang in SOAP 1.2 SOAP-ENV:Text.</li>
+<li>Fixed XML literal strings with maxOccurs="unbounded"</li>
+<li>Fixed SSL connection engine issue.</li>
+<li>Fixed RPC literal part name handling issue.</li>
+<li>Fixed in update: SSL alloc/free issue and s2dateTime.</li>
+</ul>
+<li>Version 2.7.12 (10/01/2008)</li>
+<ul>
+<li>Added multi-endpoint connect capability. Endpoint string can be a space-separated list of endpoint URLs, where each URL is tried in turn.</li>
+<li>Added SOAP_SSL_NO_DEFAULT_CA_PATH option.</li>
+<li>Fixed SSL connect issue when the SSL handshake or network connection fails.</li>
+<li>Fixed xsi:nil handling for strings (NULL vs. "") in case of empty elements.</li>
+<li>Fixed DOM xmlns="" namespace issue in XML output.</li>
+<li>Fixed IP_MULTICAST_TTL failure to compile.</li>
+<li>Fixed non-critical WSSE API soap_wsse_verify_nested code.</li>
+</ul>
+<li>Version 2.7.13 (03/21/2009)</li>
+<ul>
+<li>Improved wsdl2h code output.</li>
+<li>Updated gsoapWinInet.</li>
+<li>Updated DOM xmlns namespace binding handling.</li>
+<li>Fixed OpenSSL memory leak.</li>
+</ul>
+<li>Version 2.7.14 (09/07/2009)</li>
+<ul>
+<li>Added support for poll() to replace select() to prevent FD_EXCEEDED.</li>
+<li>Fixed enum local simpleType restriction attribute initialization.</li>
+<li>Fixed utf8 string parsing issue when first char in CDATA could cause problems.</li>
+<li>Fixed UDP IPv6 multicast-unicast exchange.</li>
+<li>Fixed gzip end-of-stream check.</li>
+<li>Fixed wsdl2h portType operation-input/output matching to ensure operations can be safely overloaded.</li>
+</ul>
+<li>Version 2.7.15 (11/07/2009)</li>
+<ul>
+<li>Added soap_read_X() and soap_write_X() macros to simplify object reading and writing.</li>
+<li>Fixed soap_new_X() functions compilation problem.</li>
+<li>Fixed SSL session in context copy.</li>
+<li>Fixed win32 select() in tcp_select().</li>
+<li>Fixed wstrings in unions.</li>
+<li>Fixed preservation of CDATA sections in literal XML strings.</li>
+</ul>
+<li>Version 2.7.16 (04/05/2010)</li>
+<ul>
+<li>Added soapcpp2 option -T to generate auto-test echo server code with an example in samples/autotest based on 294 patterns for data binding W3C workgroup.</li>
+<li>Added soapcpp2 option -b to serialize byte arrays char[] as fixed-size strings (array of xsd:byte otherwise).</li>
+<li>Added xsd:duration serializer: import custom/duration.h.</li>
+<li>Added gsoap header syntax '$' type qualifier to indicate special struct/class members (array length, union discriminators).</li>
+<li>Added "colon notation" to attach XML prefixes to C/C++ names without changing the names, an alternative to the ns__ prefix notation.</li>
+<li>Added wsdl2h options -z# for backward compatibility flags (-z1, -z2).</li>
+<li>Added SOAP_XML_IGNORENS to optionally ignore XML namespaces.</li>
+<li>Added WS-ReliableMessaging plugin.</li>
+<li>Added custom xsd:duration serializer.</li>
+<li>Added WSSE plugin soap_wsse_set_wsu_id() to simplify signing of elements (sets the wsu:Id of a given element tag name).</li>
+<li>Improved handling of struct/class member name clashes resulting from XML schemas definitions.</li>
+<li>Improved SOAP RPC ecoding response element tag acceptance.</li>
+<li>Improved VxWorks compatibility.</li>
+<li>Fixed FastCGI SOAP/XML processing with MIME attachments.</li>
+<li>Fixed 'typedef std::string XML', for literal XML serialization problem.</li>
+<li>Fixed a rare incorrect well-formedness error when xmlns default namespaces are absent.</li>
+<li>Fixed a zlib compression error when obsolete crc check is used.</li>
+<li>Fixed WS-Addressing HTTPS message relay (OpenSSL crash).</li>
+</ul>
+<li>Version 2.7.17 (05/10/2010)</li>
+<ul>
+<li>Added WS-Policy 1.2 and 1.5, WS-SecurityPolicy 1.2 support for wsdl2h.</li>
+<li>Improved WS-ReliableMessaging interop and verified MT-safety.</li>
+<li>Improved WS-Security WSSE plugin documentation.</li>
+<li>Fixed soapcpp2 line number error reporting.</li>
+<li>Fixed WSSE plugin soap_wsse_set_wsu_id().</li>
+<li>Fixed wsdl2h cycle problem with recursive xs:include and xs:import.</li>
+<li>Fixed enum translation of enum symbols with colons.</li>
+<li>Fixed std::wstring used as XML attribute value UTF8 encoding (internal stdsoap2 API changed).</li>
+</ul>
+<li>Version 2.8.0 (09/20/2010)</li>
+<ul>
+<li>Added wsdl2h option -W: suppress warnings.</li>
+<li>Added wsdl2h option -i: for advanced uses only to skip schema imports.</li>
+<li>Added automatic xsi:nil output for NULL pointer members when minOccurs&gt;0 (member has '1' occurence annotation).</li>
+<li>Improved wstring and wchar_t* handling when wchar_t is &lt; 4 bytes.</li>
+<li>Improved use of custom serializers in builds.</li>
+<li>Fixed wsdl2h type mapping of nested xs:sequence and xs:choice.</li>
+<li>Fixed soapcpp2 handling of extension base qualified elements and derived type unqualified elements.</li>
+<li>Fixed WSRM message resend buffer leak.</li>
+<li>Licensing change for reasons of consistency and transparency: the soapcpp2 tool (2.8.0 and up) is licensed under the same conditions as the wsdl2h tool, which means that soapcpp2 is no longer covered by the gSOAP public license.</li>
+</ul>
+<li>Version 2.8.1 (01/14/2011)</li>
+<ul>
+<li>Added WS-Security WSSE plugin-integrated streaming XML encryption.</li>
+<li>Added WS-Security WSSE plugin soap_wsse_sign_only().</li>
+<li>Added soapcpp2 -f flag to split large output source code files into parts.</li>
+<li>Fixed C++ mapping of xs:sequence maxOccurs&gt;1.</li>
+</ul>
+<li>Version 2.8.2 (04/17/2011)</li>
+<ul>
+<li>Added soapcpp2 -j option to generate C++ proxies and services in alternative format to the -i option.</li>
+<li>Fixed wsdl2h issue with optional elements with default value.</li>
+<li>Fixed cyclic WSDL import dependences in wsdl2h.</li>
+<li>Fixed WSRM server-side fault state handing.</li>
+<li>Fixed leading unicode character parsing and conversion issue in literal XML strings.</li>
+</ul>
+<li>Version 2.8.3 (06/24/2011)</li>
+<ul>
+<li>Added soapcpp2 -y option to generate C/C++ type access information to the generated sample XML messages, allowing for the verification of C/C++ data access to the actual XML content.</li>
+<li>Added JSON serialization support in place of XML-RPC serialization, see the XML-RPC content in the samples folder.</li>
+<li>Improved DOM processing (an optional feature).</li>
+<li>Fixed bugs, compilation and porting issues.</li>
+</ul>
+<li>Version 2.8.4 (10/24/2011)</li>
+<ul>
+<li>Added NTLM support (enabled with -DWITH_NTLM, requires libntlm).</li>
+<li>Added WS-Discovery 1.1 support (see doc/wsdd and plugin/wsddapi.h and wsddapi.c).</li>
+<li>Added //gsoap typed directive to control xsi:type attribuation per namespace.</li>
+<li>Added SOAP_XML_NOTYPE flag to disable xsi:type attributes.</li>
+<li>Improved WS-Security encryption (AES, soap_wsse_add_EncryptedKey_encrypt_only).</li>
+<li>Improved HTTP proxy authentication support (digest and NTLM).</li>
+<li>Fixed bugs and portability issues.</li>
+</ul>
+<li>Version 2.8.5 (11/19/2011)</li>
+<ul>
+<li>Fixed build issues with WS-Discovery.</li>
+<li>Fixed HTTP basic auth crash.</li>
+<li>Fixed WITH_COMPAT and WITH_C_LOCALE.</li>
+<li>Fixed wsdl2h output for XSD abstract element extraneous ';'.</li>
+</ul>
+<li>Version 2.8.6 (12/14/2011)</li>
+<ul>
+<li>Improved WS-Security compatibility.</li>
+<li>Fixed multi and cyclic WSDL import.</li>
+<li>Fixed tags of qualified referenced elements.</li>
+<li>Fixed C builds for improved portability.</li>
+</ul>
+<li>Version 2.8.7 (02/07/2012)</li>
+<ul>
+<li>Added new REST examples.</li>
+<li>Added versioning checks to ensure project builds are consistent.</li>
+<li>Improved interoperability of wsdl2h output wrt. to element qualification.</li>
+<li>Renamed TANDEM to TANDEM_NONSTOP to prevent naming conflicts.</li>
+<li>Fixed WS-Discovery URL.</li>
+<li>Fixed soapcpp2 option -i and -j server chaining.</li>
+</ul>
+<li>Version 2.8.8 (02/20/2012)</li>
+<ul>
+<li>Added REST plugin (httppost.c) enhancements and examples.</li>
+<li>Added static version checks to prevent linkage to old incompatible libraries that could lead to runtime failures.</li>
+</ul>
+<li>Version 2.8.9 (06/10/2012)</li>
+<ul>
+<li>Added examples to interoperate with WCF basicHttp, basicTransportSecurity, basicMessageSecurity, and wsDualHttp.</li>
+<li>Added soapcpp2 option -A for service dispatching based on Action values only.</li>
+<li>Added wsdl2h option -z3.</li>
+<li>Added wsse support for WS-SecureConversation.</li>
+<li>Added wsrm5 WS-ReliableMessaging 1.0 2005.</li>
+<li>Added iOS plugin with examples.</li>
+<li>Improved WS-Policy analysis and reporting.</li>
+<li>Fixed and improved wsse plugin for WS-Security interoperability with WCF and other implementations (required a small API change).</li>
+<li>Fixed HTTP headers for NTLM.</li>
+<li>Fixed httpda plugin OpenSSL init crash in md5evp.c.</li>
+</ul>
+<li>Version 2.8.10 (08/16/2012)</li>
+<ul>
+<li>Added soapcpp2 -Q option (C++ namespaces).</li>
+<li>Added wsdl2h -b option (bi-directional operations for duplex services).</li>
+<li>Updated WS-Addressing and WS-ReliableMessaging plugins, documentation, and examples.</li>
+</ul>
+<li>Version 2.8.11 (10/14/2012)</li>
+<ul>
+<li>Added soapcpp2 -0 option to remove SOAP bindings when applicable.</li>
+<li>Changed wsdl2h output for the few cases that multiple service bindings are defined, use wsdl2h -Nns for backward compatibility.</li>
+<li>Improved DOM processing.</li>
+<li>Improved C++0x/C++11 compatibility.</li>
+<li>Fixed httpda plugin crash.</li>
+<li>Fixed wsdl2h processing of xs:group maxOccurs=unbounded.</li>
+<li>Fixed mod_gsoap plugin compilation issues.</li>
+<li>Fixed literal XML UTF8 (UTF8 is now retained with SOAP_C_UTFSTRING).</li>
+</ul>
+<li>Version 2.8.12 (12/8/2012)</li>
+<ul>
+<li>Added WSDL 2.0 support to wsdl2h.</li>
+<li>Added //gsoap method-protocol directive.</li>
+<li>Improved XML REST support, soapcpp2 -0 option for "no-SOAP" services.</li>
+<li>Improved class instantiation with soap_new_X, soap_new_set_X, soap_new_req_X.</li>
+<li>Improved soapcpp2 -b option.</li>
+<li>Improved WCF WS-Addressing interop (duplex) channel.</li>
+<li>Changed code to normalize in/out MEP for solicit-response messaging.</li>
+<li>Fixed client-side OpenSSL host check that is known to crash in OpenSSL.</li>
+</ul>
+<li>Version 2.8.13 (1/21/2013)</li>
+<ul>
+<li>Improved XML-RPC/JSON API and documentation, with one change: now must use SOAP_C_UTFSTRING to hold UTF8 in 8-bit strings.</li>
+<li>Improved VxWorks compatibility.</li>
+<li>Updated soap_read_X and soap_write_X to serialize object graphs with SOAP encoding enabled: use soap_set_version(soap, V) with V=0 (no SOAP), V=1 (SOAP1.1), V=2 (SOAP1.2).</li>
+<li>Fixed broken WSDL &lt;types&gt; nested schema XSD import.</li>
+<li>Fixed operation action overriding by input/output SOAP action.</li>
+<li>Deprecated old-style C++ service proxies and objects (use soapcpp2 -z1 flag to generate).</li>
+</ul>
+<li>Version 2.8.14 (2/4/2013)</li>
+<ul>
+<li>Added explanation of wsdl2h option -Nname which is used to generate a service (and its prefix name) for each service binding (bindings are collected in one service by default).</li>
+<li>Fixed PRId64 formatting.</li>
+<li>Fixed broken MIME with doc/lit (when SOAP encodingStyle is not used).</li>
+</ul>
+<li>Version 2.8.15 (5/12/2013)</li>
+<ul>
+<li>Added wsdl2h option -R for auto-generation of REST-based service operations (also added examples/rest example).</li>
+<li>Change soap_read_X() and soap_write_X() to prevent removal of HTTP headers after calling soap_connect().</li>
+<li>Fixed automatic detection of DIME/MIME transfers.</li>
+<li>Fixed HTTP 1.0 chunking issue.</li>
+<li>Fixed HTTP digest authentication with DIME/MIME transfers.</li>
+<li>Fixed OpenSSL subject alt name check.</li>
+<li>Fixed HTTP 100 message handling issue.</li>
+</ul>
+<li>Version 2.8.16 (8/12/2013)</li>
+<ul>
+<li>Improved support for Android platform.</li>
+<li>Improved WCF interop duplex messaging requiring ChannelInstances.</li>
+<li>Fixed complexType restriction of schema types with redefined attributes in wsdl2h output.</li>
+<li>Fixed wcf/WS/DualHttp example (wrong use of send_X() replaced by X() for client-side operations X, to allow HTTP keep-alive to be used).</li>
+<li>Fixed use of sprintf's that trigger Valgrind and Fortify warnings.</li>
+<li>Fixed parsing character strings from CDATA sections ending in ']'.</li>
+<li>Fixed DOM output for SOAP_XML_CANONICAL c14n normalization of xmlns namespace bindings.</li>
+</ul>
+<li>Version 2.8.17r (12/1/2013)</li>
+<ul>
+<li>Added WS-RM message queueing option for WS-RM NoDiscard.</li>
+<li>Added wsdl2h option -r for authorized web access and proxy access.</li>
+<li>Improved C++11 compatibility.</li>
+<li>Improved ISO compatibility (compile -pedantic).</li>
+<li>Improved I/O timeouts timing accuracy in the presence of EINTR interrupts (set SOAP_MAXEINTR).</li>
+<li>Fixed in 2.8.17r: fixed socket timeout issue.</li>
+</ul>
+<li>Version 2.8.18 (8/24/2014)</li>
+<ul>
+<li>Added xs:precision and xs:scale support.</li>
+<li>Added support for BPEL PartnerLink and VariableProperties to wsdl2h in support of BPEL projects.</li>
+<li>Added soapcpp -z2 flag for backward compatibility with to 2.7.x: omit XML output of elements for pointers that are NULL even when minOccurs=1 (required).</li>
+<li>Changed wsdl2h C++ output to always generate pass-by-reference response parameters (disable with -z6).</li>
+<li>Improved WS-RM interoperability.</li>
+<li>Fixed message part elements and types in default (xmlns="") namespace.</li>
+<li>Fixed &amp;#;-entity code conversion bug in XML attribute deserialization.</li>
+<li>Fixed wsdl2h nested simpleType restriction with itemTypes.</li>
+<li>Fixed wsdl2h substitutionGroup element in other namespace.</li>
+<li>Fixed &lt;xs:choice&gt; strict validation.</li>
+<li>Fixed timeout/EINTR issue.</li>
+</ul>
+<li>Version 2.8.19 (11/8/2014)</li>
+<ul>
+<li>Added string validation callbacks fsvalidate and fwvalidate for regex pattern-based validation of strings and wide strings against XML schema regex patterns.</li>
+<li>Fixed &lt;xs:choice&gt; strict validation with minOccurs="0" element(s).</li>
+<li>Fixed TCP_FASTOPEN with UDP.</li>
+<li>Fixed MTOM Content-Disposition ID overriding problem.</li>
+<li>AIX portability fixes.</li>
+</ul>
+<li>Version 2.8.20 (11/30/2014)</li>
+<ul>
+<li>Added XML 1.1 control char encoding support.</li>
+<li>Fixed C/C++ compiler warnings.</li>
+</ul>
+<li>Version 2.8.21 (12/05/2014)</li>
+<ul>
+<li>Added -DWITH_REPLACE_ILLEGAL_UTF8 compilation option to replace UTF8 content that is outside the allowed range of XML 1.0.</li>
+<li>Improved WS-RM (memory usage).</li>
+<li>Fixed additional C/C++ compiler warnings.</li>
+<li>Fixed strftime %F and %T use (removed).</li>
+</ul>
+</ul>
+<li>Version 2.8.22 (4/12/2015)</li>
+<li>Added XSD 1.1 support (xs:override, xs:defaultAttributes, xs:targetNamespace on element and attribute declarations, and other additions).</li>
+<li>Added import/wsdd5.h to support WS-Discovery 1.0 with WS-Addressing 2005/08 (typemap.dat now sets wsdd5.h instead of wsdd10.h by default).</li>
+<li>Improved portability, including Solaris and AIX porting.</li>
+<li>Improved option -R is now required to enable REST WSDL bindings and non-HTTP transport (in addition to enabling REST WSDL operations).</li>
+<li>Fixed wsdl2h handling of xs:redefine.</li>
+<li>Fixed deep class inherited xsd__anyType deserializer issue causing serialization and validation errors.</li>
+<li>Fixed std::vector* deserialization bug that occurs under very specific circumstances.</li>
+<li>Fixed wsdd plugin SOAP_WSDD_APP_MAX_DELAY.</li>
+<li>Fixed wsse/smdevp memory leak.</li>
+<ul>
+</ul>
+
+</body>
+</html>

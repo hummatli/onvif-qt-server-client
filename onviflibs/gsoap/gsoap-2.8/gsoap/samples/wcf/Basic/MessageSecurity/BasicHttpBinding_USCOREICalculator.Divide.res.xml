@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tempuri="http://tempuri.org/"
+  xmlns:mssamm="http://Microsoft.Samples.MessageSecurity"
+  xmlns:c14n="http://www.w3.org/2001/10/xml-exc-c14n#"
+  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+  xmlns:xenc="http://www.w3.org/2001/04/xmlenc#"
+  xmlns:wsc="http://schemas.xmlsoap.org/ws/2005/02/sc"
+  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+  xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+ <SOAP-ENV:Header>
+ </SOAP-ENV:Header>
+ <SOAP-ENV:Body>
+  <mssamm:DivideResponse>
+   <mssamm:DivideResult>0.0</mssamm:DivideResult>
+  </mssamm:DivideResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

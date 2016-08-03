@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="wssetest"
+ targetNamespace="http://www.genivia.com/wsdl/wssetest.wsdl"
+ xmlns:tns="http://www.genivia.com/wsdl/wssetest.wsdl"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="http://www.genivia.com/schemas/wssetest.xsd"
+ xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<message name="addRequest">
+ <part name="a" type="xsd:double"/>
+ <part name="b" type="xsd:double"/>
+</message>
+
+<message name="addResponse">
+ <part name="result" type="xsd:double"/>
+</message>
+
+<message name="subRequest">
+ <part name="a" type="xsd:double"/>
+ <part name="b" type="xsd:double"/>
+</message>
+
+<message name="subResponse">
+ <part name="result" type="xsd:double"/>
+</message>
+
+<message name="mulRequest">
+ <part name="a" type="xsd:double"/>
+ <part name="b" type="xsd:double"/>
+</message>
+
+<message name="mulResponse">
+ <part name="result" type="xsd:double"/>
+</message>
+
+<message name="divRequest">
+ <part name="a" type="xsd:double"/>
+ <part name="b" type="xsd:double"/>
+</message>
+
+<message name="divResponse">
+ <part name="result" type="xsd:double"/>
+</message>
+
+<message name="Header">
+ <part name="Security" element="wsse:Security"/>
+</message>
+
+<portType name="wssetestPortType">
+ <operation name="add">
+  <input message="tns:addRequest"/>
+  <output message="tns:addResponse"/>
+ </operation>
+ <operation name="sub">
+  <input message="tns:subRequest"/>
+  <output message="tns:subResponse"/>
+ </operation>
+ <operation name="mul">
+  <input message="tns:mulRequest"/>
+  <output message="tns:mulResponse"/>
+ </operation>
+ <operation name="div">
+  <input message="tns:divRequest"/>
+  <output message="tns:divResponse"/>
+ </operation>
+</portType>
+
+<binding name="wssetest" type="tns:wssetestPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="add">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="http://www.genivia.com/schemas/wssetest.xsd" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+     <SOAP:header use="literal" message="tns:Header" part="Security"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="http://www.genivia.com/schemas/wssetest.xsd" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+     <SOAP:header use="literal" message="tns:Header" part="Security"/>
+  </output>
+ </operation>
+ <operation name="sub">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="http://www.genivia.com/schemas/wssetest.xsd" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+     <SOAP:header use="literal" message="tns:Header" part="Security"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="http://www.genivia.com/schemas/wssetest.xsd" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+     <SOAP:header use="literal" message="tns:Header" part="Security"/>
+  </output>
+ </operation>
+ <operation name="mul">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="http://www.genivia.com/schemas/wssetest.xsd" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+     <SOAP:header use="literal" message="tns:Header" part="Security"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="http://www.genivia.com/schemas/wssetest.xsd" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+     <SOAP:header use="literal" message="tns:Header" part="Security"/>
+  </output>
+ </operation>
+ <operation name="div">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="http://www.genivia.com/schemas/wssetest.xsd" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+     <SOAP:header use="literal" message="tns:Header" part="Security"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="http://www.genivia.com/schemas/wssetest.xsd" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+     <SOAP:header use="literal" message="tns:Header" part="Security"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="wssetest">
+ <port name="wssetest" binding="tns:wssetest">
+  <SOAP:address location="http://localhost:80"/>
+ </port>
+</service>
+
+</definitions>
