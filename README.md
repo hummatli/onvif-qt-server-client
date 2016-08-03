@@ -1,6 +1,6 @@
 # Onvif QT Server and Client
 
-Onvif QT Server Client is a sample for creating Onvif Server and Onvif client with `QT C++`. Program has built with `Qt 5.5.0(MSVC 2013, 32 bit)` on `IDE Qt Creator 3.4.2`. In program has used <a href="http://www.genivia.com/dev.html">gsoap</a> c++ api to create both server side(to generate soap services) and client side( to parse it and call). To generate service structure has used `wsdl`-s from <a href="http://www.onvif.org/">onvif</a> protocol.
+Onvif QT Server Client is a sample for creating `Onvif Server` and `Onvif Client` with `QT C++`. Program has built with `Qt 5.5.0(MSVC 2013, 32 bit)` on `IDE Qt Creator 3.4.2`. In program has used <a href="http://www.genivia.com/dev.html">gsoap</a> c++ api to create both server side(to generate soap services) and client side( to parse it and call). To generate service structure has used `wsdl`-s from <a href="http://www.onvif.org/">onvif</a> protocol.
 
 
 #Library structure
