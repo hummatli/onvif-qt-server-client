@@ -6,27 +6,27 @@ Onvif QT Server Client is a sample for creating Onvif Server and Onvif client wi
 #Library structure
 Program contains from tree parts
 ```
-     * Onvif Client
-     * Onvif Server
-     * Onvif libs
+* Onvif Client
+* Onvif Server
+* Onvif libs
 ```
 OnvifLib combines from follwing onvif parts
 ```
-     * onvifcore
-     *        -> OnvifDeviceLib
-     *        -> OnvifDiscoveryLib
-     *        -> OnvifEventLib
-     * OnvifAnaliticsLib
-     * OnvifDeviceIOLib
-     * OnvifDisplayLib
-     * OnvifImaginingLib
-     * OnvifMediaLib
-     * OnvifPTZLib
-     * OnvifReceiverLib
-     * OnvifRecordingControlLib
-     * OnvifRecordinSearchLib
-     * OnvifReplayControlLib
-     * OnvifVideoAnaliticsDeviceLib
+* onvifcore
+*        -> OnvifDeviceLib
+*        -> OnvifDiscoveryLib
+*        -> OnvifEventLib
+* OnvifAnaliticsLib
+* OnvifDeviceIOLib
+* OnvifDisplayLib
+* OnvifImaginingLib
+* OnvifMediaLib
+* OnvifPTZLib
+* OnvifReceiverLib
+* OnvifRecordingControlLib
+* OnvifRecordinSearchLib
+* OnvifReplayControlLib
+* OnvifVideoAnaliticsDeviceLib
 ```
 
 #To test program.
